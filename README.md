@@ -1,3 +1,3 @@
-# State-Space-Solver
+# State Space Solver
 
 Not financial advice.
