@@ -1,0 +1,40 @@
+Model:
+	Market history for specific stock/item should be given a moving average.
+		Must account for stock split/reverse stock split.
+	Determined by derivatives, peak and valley envelopes should be identified.
+	Kalman filter should track moving average while predicting the envelope.
+	Inputs:
+		Stock market prices vs time.
+		Steam community market prices vs time.
+		No matter the market, this algorithm theoretically requires a minimal spread.
+		During testing:
+			Horizontal.
+			Bull.
+			Bear.
+			Lifetime.
+	State variables:
+		Average price.
+		Derivative of price.
+		Error.
+
+Actions:
+	Crash rejection:
+		If market falls or surges by over TBD%, notification given, but nothing automated should occur.
+			TBD% could be based on the envelope; if significant deviation outside of envelope occurs, user input should be required due to the news not being utilized.
+	Notifications:
+		Noteworthy market movements and buy/sell recommendations could be communicated through Discord messages.
+		Recommendations:
+			Algorithm predicting actions that yield results should not be taken as financial advice.
+			Day trading on predicted fluctuations should increase buy/sell volume as the price approaches a predicted envelope.
+				If envelope edge is significantly passed, break from recommendations and instead request user input.
+					Stock split.
+					Reverse stock split.
+					Panic buy/sell.
+					Earnings report.
+			Trading recommendations for more significant price changes should occur when the derivative magniltude falls after a spike. 
+				Should be combined with envelope prediction.
+			Options should only be recommended if stock is predicted to trade sideways with significant fluctuation (TBD%).
+	Automated trading:
+		Extremely long-term goal that would require broker with insignificant commissions.
+		Most important aspect would be a kill button.
+	
