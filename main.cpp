@@ -2,7 +2,6 @@
 #include <iomanip>
 #include <cstring>
 #include <time.h>
-using namespace std;
 
 //[buy/sell declaration]
 
@@ -12,10 +11,10 @@ long int unruhe;
 
 int main(){
     unruhe = time(&tmr);
-    cout<<"online"<<endl;
+    std::cout<<"online"<<std::endl;
 
-    while(cin.good()){
-        cin>>setw(6)>>input;
+    while(std::cin.good()){
+        std::cin>>std::setw(6)>>input;
         if(strcmp(input,"break")==0){
             break;
         }
@@ -25,12 +24,12 @@ int main(){
             //cout<<"sell:"<<endl;
         }
         else if(time(&tmr)>unruhe+1){
-            cout<<"unrecognized command"<<endl;
+            std::cout<<"unrecognized command"<<std::endl;
             unruhe = time(&tmr);
         }
     }
 
-    cout<<"offline"<<endl;
+    std::cout<<"offline"<<std::endl;
     return 0;
 }
 

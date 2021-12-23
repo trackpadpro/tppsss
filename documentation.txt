@@ -37,4 +37,7 @@ Actions:
 	Automated trading:
 		Extremely long-term goal that would require broker with insignificant commissions.
 		Most important aspect would be a kill button.
-	
+Miscellaneous:
+	Ease of installation:
+		Allow clone + bootstrap script to build executable.
+		Provide .exe within releases on GitHub.
