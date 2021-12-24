@@ -1,0 +1,3 @@
+/c/Users/Valentin/Downloads/stateSpaceSolver/build/CMakeFiles/tripleS.dir
+/c/Users/Valentin/Downloads/stateSpaceSolver/build/CMakeFiles/edit_cache.dir
+/c/Users/Valentin/Downloads/stateSpaceSolver/build/CMakeFiles/rebuild_cache.dir
