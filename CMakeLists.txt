@@ -7,5 +7,6 @@ set(EXECUTABLE_OUTPUT_PATH ${CMAKE_SOURCE_DIR})
 add_executable(${PROJECT_NAME} main.cpp)
 
 add_subdirectory(controlTheory)
+add_subdirectory(webScraper)
 
-target_link_libraries(${PROJECT_NAME} controlTheory)
+target_link_libraries(${PROJECT_NAME} controlTheory webScraper)

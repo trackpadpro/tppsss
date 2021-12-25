@@ -87,14 +87,14 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /c/Users/Valentin/Downloads/stateSpaceSolver/build/CMakeFiles /c/Users/Valentin/Downloads/stateSpaceSolver/build//CMakeFiles/progress.marks
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 all
+	cd /c/Users/Valentin/Downloads/stateSpaceSolver/build && $(CMAKE_COMMAND) -E cmake_progress_start /c/Users/Valentin/Downloads/stateSpaceSolver/build/CMakeFiles /c/Users/Valentin/Downloads/stateSpaceSolver/build/webScraper//CMakeFiles/progress.marks
+	cd /c/Users/Valentin/Downloads/stateSpaceSolver/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 webScraper/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /c/Users/Valentin/Downloads/stateSpaceSolver/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
 clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 clean
+	cd /c/Users/Valentin/Downloads/stateSpaceSolver/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 webScraper/clean
 .PHONY : clean
 
 # The main clean target
@@ -103,81 +103,56 @@ clean/fast: clean
 
 # Prepare targets for installation.
 preinstall: all
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 preinstall
+	cd /c/Users/Valentin/Downloads/stateSpaceSolver/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 webScraper/preinstall
 .PHONY : preinstall
 
 # Prepare targets for installation.
 preinstall/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 preinstall
+	cd /c/Users/Valentin/Downloads/stateSpaceSolver/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 webScraper/preinstall
 .PHONY : preinstall/fast
 
 # clear depends
 depend:
-	$(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
+	cd /c/Users/Valentin/Downloads/stateSpaceSolver/build && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
 
-#=============================================================================
-# Target rules for targets named tripleS
+# Convenience name for target.
+webScraper/CMakeFiles/webScraper.dir/rule:
+	cd /c/Users/Valentin/Downloads/stateSpaceSolver/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 webScraper/CMakeFiles/webScraper.dir/rule
+.PHONY : webScraper/CMakeFiles/webScraper.dir/rule
 
-# Build rule for target.
-tripleS: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tripleS
-.PHONY : tripleS
-
-# fast build rule for target.
-tripleS/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/tripleS.dir/build.make CMakeFiles/tripleS.dir/build
-.PHONY : tripleS/fast
-
-#=============================================================================
-# Target rules for targets named controlTheory
-
-# Build rule for target.
-controlTheory: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 controlTheory
-.PHONY : controlTheory
-
-# fast build rule for target.
-controlTheory/fast:
-	$(MAKE) $(MAKESILENT) -f controlTheory/CMakeFiles/controlTheory.dir/build.make controlTheory/CMakeFiles/controlTheory.dir/build
-.PHONY : controlTheory/fast
-
-#=============================================================================
-# Target rules for targets named webScraper
-
-# Build rule for target.
-webScraper: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 webScraper
+# Convenience name for target.
+webScraper: webScraper/CMakeFiles/webScraper.dir/rule
 .PHONY : webScraper
 
 # fast build rule for target.
 webScraper/fast:
-	$(MAKE) $(MAKESILENT) -f webScraper/CMakeFiles/webScraper.dir/build.make webScraper/CMakeFiles/webScraper.dir/build
+	cd /c/Users/Valentin/Downloads/stateSpaceSolver/build && $(MAKE) $(MAKESILENT) -f webScraper/CMakeFiles/webScraper.dir/build.make webScraper/CMakeFiles/webScraper.dir/build
 .PHONY : webScraper/fast
 
-main.o: main.cpp.o
-.PHONY : main.o
+webScraper.o: webScraper.cpp.o
+.PHONY : webScraper.o
 
 # target to build an object file
-main.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/tripleS.dir/build.make CMakeFiles/tripleS.dir/main.cpp.o
-.PHONY : main.cpp.o
+webScraper.cpp.o:
+	cd /c/Users/Valentin/Downloads/stateSpaceSolver/build && $(MAKE) $(MAKESILENT) -f webScraper/CMakeFiles/webScraper.dir/build.make webScraper/CMakeFiles/webScraper.dir/webScraper.cpp.o
+.PHONY : webScraper.cpp.o
 
-main.i: main.cpp.i
-.PHONY : main.i
+webScraper.i: webScraper.cpp.i
+.PHONY : webScraper.i
 
 # target to preprocess a source file
-main.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/tripleS.dir/build.make CMakeFiles/tripleS.dir/main.cpp.i
-.PHONY : main.cpp.i
+webScraper.cpp.i:
+	cd /c/Users/Valentin/Downloads/stateSpaceSolver/build && $(MAKE) $(MAKESILENT) -f webScraper/CMakeFiles/webScraper.dir/build.make webScraper/CMakeFiles/webScraper.dir/webScraper.cpp.i
+.PHONY : webScraper.cpp.i
 
-main.s: main.cpp.s
-.PHONY : main.s
+webScraper.s: webScraper.cpp.s
+.PHONY : webScraper.s
 
 # target to generate assembly for a file
-main.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/tripleS.dir/build.make CMakeFiles/tripleS.dir/main.cpp.s
-.PHONY : main.cpp.s
+webScraper.cpp.s:
+	cd /c/Users/Valentin/Downloads/stateSpaceSolver/build && $(MAKE) $(MAKESILENT) -f webScraper/CMakeFiles/webScraper.dir/build.make webScraper/CMakeFiles/webScraper.dir/webScraper.cpp.s
+.PHONY : webScraper.cpp.s
 
 # Help Target
 help:
@@ -187,12 +162,10 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
-	@echo "... controlTheory"
-	@echo "... tripleS"
 	@echo "... webScraper"
-	@echo "... main.o"
-	@echo "... main.i"
-	@echo "... main.s"
+	@echo "... webScraper.o"
+	@echo "... webScraper.i"
+	@echo "... webScraper.s"
 .PHONY : help
 
 
@@ -204,6 +177,6 @@ help:
 # No rule that depends on this can have commands that come from listfiles
 # because they might be regenerated.
 cmake_check_build_system:
-	$(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
+	cd /c/Users/Valentin/Downloads/stateSpaceSolver/build && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
 .PHONY : cmake_check_build_system
 

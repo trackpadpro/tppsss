@@ -1,0 +1,2 @@
+/usr/bin/ar.exe qc libwebScraper.a CMakeFiles/webScraper.dir/webScraper.cpp.o
+/usr/bin/ranlib.exe libwebScraper.a

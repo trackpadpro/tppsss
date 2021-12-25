@@ -93,6 +93,7 @@ tripleS_EXTERNAL_OBJECTS =
 ../tripleS.exe: CMakeFiles/tripleS.dir/main.cpp.o
 ../tripleS.exe: CMakeFiles/tripleS.dir/build.make
 ../tripleS.exe: controlTheory/libcontrolTheory.a
+../tripleS.exe: webScraper/libwebScraper.a
 ../tripleS.exe: CMakeFiles/tripleS.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/c/Users/Valentin/Downloads/stateSpaceSolver/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable ../tripleS.exe"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/tripleS.dir/link.txt --verbose=$(VERBOSE)

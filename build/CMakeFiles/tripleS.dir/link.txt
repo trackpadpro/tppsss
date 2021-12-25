@@ -1,1 +1,1 @@
-/usr/bin/c++.exe -Wl,--enable-auto-import CMakeFiles/tripleS.dir/main.cpp.o -o ../tripleS.exe -Wl,--out-implib,../libtripleS.dll.a -Wl,--major-image-version,0,--minor-image-version,0  controlTheory/libcontrolTheory.a 
+/usr/bin/c++.exe -Wl,--enable-auto-import CMakeFiles/tripleS.dir/main.cpp.o -o ../tripleS.exe -Wl,--out-implib,../libtripleS.dll.a -Wl,--major-image-version,0,--minor-image-version,0  controlTheory/libcontrolTheory.a webScraper/libwebScraper.a 

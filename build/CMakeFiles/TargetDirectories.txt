@@ -4,3 +4,6 @@
 /c/Users/Valentin/Downloads/stateSpaceSolver/build/controlTheory/CMakeFiles/controlTheory.dir
 /c/Users/Valentin/Downloads/stateSpaceSolver/build/controlTheory/CMakeFiles/edit_cache.dir
 /c/Users/Valentin/Downloads/stateSpaceSolver/build/controlTheory/CMakeFiles/rebuild_cache.dir
+/c/Users/Valentin/Downloads/stateSpaceSolver/build/webScraper/CMakeFiles/webScraper.dir
+/c/Users/Valentin/Downloads/stateSpaceSolver/build/webScraper/CMakeFiles/edit_cache.dir
+/c/Users/Valentin/Downloads/stateSpaceSolver/build/webScraper/CMakeFiles/rebuild_cache.dir

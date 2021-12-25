@@ -65,15 +65,18 @@ CMAKE_BINARY_DIR = /c/Users/Valentin/Downloads/stateSpaceSolver/build
 # The main recursive "all" target.
 all: CMakeFiles/tripleS.dir/all
 all: controlTheory/all
+all: webScraper/all
 .PHONY : all
 
 # The main recursive "preinstall" target.
 preinstall: controlTheory/preinstall
+preinstall: webScraper/preinstall
 .PHONY : preinstall
 
 # The main recursive "clean" target.
 clean: CMakeFiles/tripleS.dir/clean
 clean: controlTheory/clean
+clean: webScraper/clean
 .PHONY : clean
 
 #=============================================================================
@@ -92,10 +95,26 @@ controlTheory/clean: controlTheory/CMakeFiles/controlTheory.dir/clean
 .PHONY : controlTheory/clean
 
 #=============================================================================
+# Directory level rules for directory webScraper
+
+# Recursive "all" directory target.
+webScraper/all: webScraper/CMakeFiles/webScraper.dir/all
+.PHONY : webScraper/all
+
+# Recursive "preinstall" directory target.
+webScraper/preinstall:
+.PHONY : webScraper/preinstall
+
+# Recursive "clean" directory target.
+webScraper/clean: webScraper/CMakeFiles/webScraper.dir/clean
+.PHONY : webScraper/clean
+
+#=============================================================================
 # Target rules for target CMakeFiles/tripleS.dir
 
 # All Build rule for target.
 CMakeFiles/tripleS.dir/all: controlTheory/CMakeFiles/controlTheory.dir/all
+CMakeFiles/tripleS.dir/all: webScraper/CMakeFiles/webScraper.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/tripleS.dir/build.make CMakeFiles/tripleS.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/tripleS.dir/build.make CMakeFiles/tripleS.dir/build
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/c/Users/Valentin/Downloads/stateSpaceSolver/build/CMakeFiles --progress-num=3,4 "Built target tripleS"
@@ -103,7 +122,7 @@ CMakeFiles/tripleS.dir/all: controlTheory/CMakeFiles/controlTheory.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/tripleS.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /c/Users/Valentin/Downloads/stateSpaceSolver/build/CMakeFiles 4
+	$(CMAKE_COMMAND) -E cmake_progress_start /c/Users/Valentin/Downloads/stateSpaceSolver/build/CMakeFiles 6
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/tripleS.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /c/Users/Valentin/Downloads/stateSpaceSolver/build/CMakeFiles 0
 .PHONY : CMakeFiles/tripleS.dir/rule
@@ -142,6 +161,32 @@ controlTheory: controlTheory/CMakeFiles/controlTheory.dir/rule
 controlTheory/CMakeFiles/controlTheory.dir/clean:
 	$(MAKE) $(MAKESILENT) -f controlTheory/CMakeFiles/controlTheory.dir/build.make controlTheory/CMakeFiles/controlTheory.dir/clean
 .PHONY : controlTheory/CMakeFiles/controlTheory.dir/clean
+
+#=============================================================================
+# Target rules for target webScraper/CMakeFiles/webScraper.dir
+
+# All Build rule for target.
+webScraper/CMakeFiles/webScraper.dir/all:
+	$(MAKE) $(MAKESILENT) -f webScraper/CMakeFiles/webScraper.dir/build.make webScraper/CMakeFiles/webScraper.dir/depend
+	$(MAKE) $(MAKESILENT) -f webScraper/CMakeFiles/webScraper.dir/build.make webScraper/CMakeFiles/webScraper.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/c/Users/Valentin/Downloads/stateSpaceSolver/build/CMakeFiles --progress-num=5,6 "Built target webScraper"
+.PHONY : webScraper/CMakeFiles/webScraper.dir/all
+
+# Build rule for subdir invocation for target.
+webScraper/CMakeFiles/webScraper.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /c/Users/Valentin/Downloads/stateSpaceSolver/build/CMakeFiles 2
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 webScraper/CMakeFiles/webScraper.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /c/Users/Valentin/Downloads/stateSpaceSolver/build/CMakeFiles 0
+.PHONY : webScraper/CMakeFiles/webScraper.dir/rule
+
+# Convenience name for target.
+webScraper: webScraper/CMakeFiles/webScraper.dir/rule
+.PHONY : webScraper
+
+# clean rule for target.
+webScraper/CMakeFiles/webScraper.dir/clean:
+	$(MAKE) $(MAKESILENT) -f webScraper/CMakeFiles/webScraper.dir/build.make webScraper/CMakeFiles/webScraper.dir/clean
+.PHONY : webScraper/CMakeFiles/webScraper.dir/clean
 
 #=============================================================================
 # Special targets to cleanup operation of make.

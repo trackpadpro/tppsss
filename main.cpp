@@ -2,35 +2,38 @@
 #include <iomanip>
 #include <cstring>
 #include <time.h>
-
-//[buy/sell declaration]
+#include "controlTheory/controlTheory.h"
+#include "webScraper/webScraper.h"
 
 char input[6];
 time_t tmr;
-long int unruhe;
+long int unruh;
+bool updatingCSV = true;
 
 int main(){
-    unruhe = time(&tmr);
-    std::cout<<"online"<<std::endl;
+    unruh = time(&tmr);
+    std::cout<<"Online."<<std::endl;
 
-    while(std::cin.good()){
+    //Go offline if data cannot regularly be pulled
+    while(updatingCSV){
         std::cin>>std::setw(6)>>input;
         if(strcmp(input,"break")==0){
             break;
         }
         else if(strcmp(input,"fetch")==0){
+            updatingCSV = updateCSV(ctime(&tmr));
             //[call buy/sell calculation]
             //cout<<"buy:"<<endl;
             //cout<<"sell:"<<endl;
         }
-        else if(time(&tmr)>unruhe+1){
-            std::cout<<"unrecognized command"<<std::endl;
-            unruhe = time(&tmr);
+        //Prevent extremely long commands from causing 
+        else if(time(&tmr)>unruh+1){
+            std::cout<<"Unrecognized Command."<<std::endl;
+            updatingCSV = updateCSV(ctime(&tmr));
+            unruh = time(&tmr);
         }
     }
 
-    std::cout<<"offline"<<std::endl;
+    std::cout<<"Offline."<<std::endl;
     return 0;
 }
-
-//[implement buy/sell calculation]
