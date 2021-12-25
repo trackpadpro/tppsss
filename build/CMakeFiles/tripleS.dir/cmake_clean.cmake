@@ -1,9 +1,9 @@
 file(REMOVE_RECURSE
+  "../libtripleS.dll.a"
+  "../tripleS.exe"
+  "../tripleS.pdb"
   "CMakeFiles/tripleS.dir/main.cpp.o"
   "CMakeFiles/tripleS.dir/main.cpp.o.d"
-  "libtripleS.dll.a"
-  "tripleS.exe"
-  "tripleS.pdb"
 )
 
 # Per-language clean rules from dependency scanning.

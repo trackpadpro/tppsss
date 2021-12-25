@@ -87,14 +87,14 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /c/Users/Valentin/Downloads/stateSpaceSolver/build/CMakeFiles /c/Users/Valentin/Downloads/stateSpaceSolver/build//CMakeFiles/progress.marks
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 all
+	cd /c/Users/Valentin/Downloads/stateSpaceSolver/build && $(CMAKE_COMMAND) -E cmake_progress_start /c/Users/Valentin/Downloads/stateSpaceSolver/build/CMakeFiles /c/Users/Valentin/Downloads/stateSpaceSolver/build/controlTheory//CMakeFiles/progress.marks
+	cd /c/Users/Valentin/Downloads/stateSpaceSolver/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 controlTheory/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /c/Users/Valentin/Downloads/stateSpaceSolver/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
 clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 clean
+	cd /c/Users/Valentin/Downloads/stateSpaceSolver/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 controlTheory/clean
 .PHONY : clean
 
 # The main clean target
@@ -103,68 +103,56 @@ clean/fast: clean
 
 # Prepare targets for installation.
 preinstall: all
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 preinstall
+	cd /c/Users/Valentin/Downloads/stateSpaceSolver/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 controlTheory/preinstall
 .PHONY : preinstall
 
 # Prepare targets for installation.
 preinstall/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 preinstall
+	cd /c/Users/Valentin/Downloads/stateSpaceSolver/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 controlTheory/preinstall
 .PHONY : preinstall/fast
 
 # clear depends
 depend:
-	$(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
+	cd /c/Users/Valentin/Downloads/stateSpaceSolver/build && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
 
-#=============================================================================
-# Target rules for targets named tripleS
+# Convenience name for target.
+controlTheory/CMakeFiles/controlTheory.dir/rule:
+	cd /c/Users/Valentin/Downloads/stateSpaceSolver/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 controlTheory/CMakeFiles/controlTheory.dir/rule
+.PHONY : controlTheory/CMakeFiles/controlTheory.dir/rule
 
-# Build rule for target.
-tripleS: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tripleS
-.PHONY : tripleS
-
-# fast build rule for target.
-tripleS/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/tripleS.dir/build.make CMakeFiles/tripleS.dir/build
-.PHONY : tripleS/fast
-
-#=============================================================================
-# Target rules for targets named controlTheory
-
-# Build rule for target.
-controlTheory: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 controlTheory
+# Convenience name for target.
+controlTheory: controlTheory/CMakeFiles/controlTheory.dir/rule
 .PHONY : controlTheory
 
 # fast build rule for target.
 controlTheory/fast:
-	$(MAKE) $(MAKESILENT) -f controlTheory/CMakeFiles/controlTheory.dir/build.make controlTheory/CMakeFiles/controlTheory.dir/build
+	cd /c/Users/Valentin/Downloads/stateSpaceSolver/build && $(MAKE) $(MAKESILENT) -f controlTheory/CMakeFiles/controlTheory.dir/build.make controlTheory/CMakeFiles/controlTheory.dir/build
 .PHONY : controlTheory/fast
 
-main.o: main.cpp.o
-.PHONY : main.o
+controlTheory.o: controlTheory.cpp.o
+.PHONY : controlTheory.o
 
 # target to build an object file
-main.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/tripleS.dir/build.make CMakeFiles/tripleS.dir/main.cpp.o
-.PHONY : main.cpp.o
+controlTheory.cpp.o:
+	cd /c/Users/Valentin/Downloads/stateSpaceSolver/build && $(MAKE) $(MAKESILENT) -f controlTheory/CMakeFiles/controlTheory.dir/build.make controlTheory/CMakeFiles/controlTheory.dir/controlTheory.cpp.o
+.PHONY : controlTheory.cpp.o
 
-main.i: main.cpp.i
-.PHONY : main.i
+controlTheory.i: controlTheory.cpp.i
+.PHONY : controlTheory.i
 
 # target to preprocess a source file
-main.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/tripleS.dir/build.make CMakeFiles/tripleS.dir/main.cpp.i
-.PHONY : main.cpp.i
+controlTheory.cpp.i:
+	cd /c/Users/Valentin/Downloads/stateSpaceSolver/build && $(MAKE) $(MAKESILENT) -f controlTheory/CMakeFiles/controlTheory.dir/build.make controlTheory/CMakeFiles/controlTheory.dir/controlTheory.cpp.i
+.PHONY : controlTheory.cpp.i
 
-main.s: main.cpp.s
-.PHONY : main.s
+controlTheory.s: controlTheory.cpp.s
+.PHONY : controlTheory.s
 
 # target to generate assembly for a file
-main.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/tripleS.dir/build.make CMakeFiles/tripleS.dir/main.cpp.s
-.PHONY : main.cpp.s
+controlTheory.cpp.s:
+	cd /c/Users/Valentin/Downloads/stateSpaceSolver/build && $(MAKE) $(MAKESILENT) -f controlTheory/CMakeFiles/controlTheory.dir/build.make controlTheory/CMakeFiles/controlTheory.dir/controlTheory.cpp.s
+.PHONY : controlTheory.cpp.s
 
 # Help Target
 help:
@@ -175,10 +163,9 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... controlTheory"
-	@echo "... tripleS"
-	@echo "... main.o"
-	@echo "... main.i"
-	@echo "... main.s"
+	@echo "... controlTheory.o"
+	@echo "... controlTheory.i"
+	@echo "... controlTheory.s"
 .PHONY : help
 
 
@@ -190,6 +177,6 @@ help:
 # No rule that depends on this can have commands that come from listfiles
 # because they might be regenerated.
 cmake_check_build_system:
-	$(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
+	cd /c/Users/Valentin/Downloads/stateSpaceSolver/build && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
 .PHONY : cmake_check_build_system
 
