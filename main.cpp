@@ -20,8 +20,8 @@ int main(){
         if(strcmp(input,"break")==0){
             break;
         }
-        else if(strcmp(input,"fetch")==0){
-            updatingCSV = updateCSV(ctime(&tmr));
+        updatingCSV = updateCSV(ctime(&tmr));
+        if(strcmp(input,"fetch")==0){
             //[call buy/sell calculation]
             //cout<<"buy:"<<endl;
             //cout<<"sell:"<<endl;
@@ -29,7 +29,6 @@ int main(){
         //Prevent extremely long commands from causing 
         else if(time(&tmr)>unruh+1){
             std::cout<<"Unrecognized Command."<<std::endl;
-            updatingCSV = updateCSV(ctime(&tmr));
             unruh = time(&tmr);
         }
     }
