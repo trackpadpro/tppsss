@@ -20,9 +20,7 @@ git clone https://github.com/trackpadpro/stateSpaceSolver
 
 cd .\stateSpaceSolver\
 
-cmake -S . -B .\build\
-
-make -C .\build\
+.\bootstrap.bat
 
 ### Run Commands
 
