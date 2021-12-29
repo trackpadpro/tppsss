@@ -1,5 +1,6 @@
 #include "webScraper.h"
 #include <iostream>
+#include <fstream>
 #include <time.h>
 
 webScraper::webScraper(time_t* tmrPtr){
@@ -14,6 +15,8 @@ webScraper::~webScraper(){
 }
 
 bool webScraper::updateCSV(){
+    std::ofstream writeCSV("webScraper/marketData.csv");
+    writeCSV<<"time\n"<<ctime(xtal); 
     if(time(xtal)>unruh+300){
         if(steamCommunity){
             //steamCommunity = ;

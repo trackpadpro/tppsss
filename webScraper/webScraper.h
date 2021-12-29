@@ -11,7 +11,6 @@ private:
     bool steamCommunity, stockMarket;
     long int unruh;
     time_t* xtal;
-    //string? CSV path & name;
 
 public:
     webScraper(time_t* tmrPtr);

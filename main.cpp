@@ -2,8 +2,8 @@
 #include <iomanip>
 #include <cstring>
 #include <time.h>
-#include "controlTheory/controlTheory.h"
-#include "webScraper/webScraper.h"
+#include "controlTheory.h"
+#include "webScraper.h"
 
 char input[6];
 time_t tmr;
