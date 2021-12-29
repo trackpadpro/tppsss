@@ -6,7 +6,7 @@ Only tested on Windows 10.
 
 ### Prerequisites
 
-Terminal (PowerShell recommended)
+Terminal (PowerShell is necessary if running the bootstrap)
 
 Git
 
@@ -20,7 +20,7 @@ git clone https://github.com/trackpadpro/stateSpaceSolver
 
 cd .\stateSpaceSolver\
 
-.\bootstrap.bat
+.\bootstrap.bat (If not using PowerShell, run the commands from within the bootstrap.ps1 script)
 
 ### Run Commands
 
