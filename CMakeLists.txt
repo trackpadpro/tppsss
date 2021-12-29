@@ -4,7 +4,9 @@ project(tripleS)
 
 set(EXECUTABLE_OUTPUT_PATH ${CMAKE_SOURCE_DIR})
 
-add_executable(${PROJECT_NAME} main.cpp)
+add_executable(${PROJECT_NAME} 
+	main.cpp
+)
 
 add_subdirectory(controlTheory)
 add_subdirectory(webScraper)
@@ -15,4 +17,8 @@ endif()
 
 add_subdirectory(deps/cpr)
 
-target_link_libraries(${PROJECT_NAME} controlTheory webScraper)
+target_link_libraries(${PROJECT_NAME} 
+	controlTheory 
+	webScraper 
+	PRIVATE cpr::cpr
+)
