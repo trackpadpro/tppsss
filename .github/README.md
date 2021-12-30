@@ -6,7 +6,7 @@ Only tested on Windows 10.
 
 ### Prerequisites
 
-Terminal (PowerShell is necessary if running the bootstrap)
+Terminal (PowerShell recommended if running the bootstrap)
 
 Git
 
