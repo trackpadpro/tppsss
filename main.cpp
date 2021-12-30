@@ -4,6 +4,7 @@
 #include <cstring>
 #include <time.h>
 #include "controlTheory.h"
+#include <curl/curl.h>
 
 char input[6];
 time_t tmr;
@@ -24,7 +25,7 @@ int main(){
         }
 
         //Collect market data when non-break terminal command is given
-        std::ofstream writeCSV("data/marketData.csv");
+        std::ofstream writeCSV("./data/marketData.csv");
 
         writeCSV<<"time"<<std::endl<<ctime(&tmr);
 

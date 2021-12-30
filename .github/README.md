@@ -20,7 +20,7 @@ git clone https://github.com/trackpadpro/stateSpaceSolver
 
 cd .\stateSpaceSolver\
 
-.\bootstrap.bat (If not using PowerShell, run the commands from within the bootstrap.ps1 script)
+.\bootstrap.bat (If not using PowerShell, you may need to manually run the commands from within the bootstrap.ps1 script)
 
 ### Run Commands
 

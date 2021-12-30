@@ -25,20 +25,23 @@ if(GIT_FOUND AND EXISTS "${PROJECT_SOURCE_DIR}/.git")
     endif()
 endif()
 
-# if(NOT EXISTS "${CMAKE_SOURCE_DIR}/deps/cpr/CMakeLists.txt")
-    # message(FATAL_ERROR "GIT_SUBMODULE was turned off or failed. Please update submodules and try again.")
-# endif()
+if(NOT EXISTS "${CMAKE_SOURCE_DIR}/deps/curl/CMakeLists.txt")
+    message(FATAL_ERROR "GIT_SUBMODULE was turned off or failed. Please update submodules and try again.")
+endif()
 
-# add_subdirectory(deps/cpr)
+add_subdirectory(deps/curl)
 
 target_include_directories(${PROJECT_NAME} 
 	PUBLIC controlTheory
+	PUBLIC deps/curl
 )
 
 target_link_directories(${PROJECT_NAME} 
 	PRIVATE controlTheory
+	PRIVATE deps/curl
 )
 
 target_link_libraries(${PROJECT_NAME} 
 	controlTheory
+	deps/curl
 )
