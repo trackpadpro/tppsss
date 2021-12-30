@@ -9,7 +9,6 @@ add_executable(${PROJECT_NAME}
 )
 
 add_subdirectory(controlTheory)
-add_subdirectory(webScraper)
 
 find_package(Git QUIET)
 if(GIT_FOUND AND EXISTS "${PROJECT_SOURCE_DIR}/.git")
@@ -26,26 +25,20 @@ if(GIT_FOUND AND EXISTS "${PROJECT_SOURCE_DIR}/.git")
     endif()
 endif()
 
-if(NOT EXISTS "${CMAKE_SOURCE_DIR}/deps/cpr/CMakeLists.txt")
-    message(FATAL_ERROR "The cpr submodule was not downloaded! GIT_SUBMODULE was turned off or failed. Please update submodules and try again.")
-endif()
+# if(NOT EXISTS "${CMAKE_SOURCE_DIR}/deps/cpr/CMakeLists.txt")
+    # message(FATAL_ERROR "GIT_SUBMODULE was turned off or failed. Please update submodules and try again.")
+# endif()
 
 # add_subdirectory(deps/cpr)
 
 target_include_directories(${PROJECT_NAME} 
 	PUBLIC controlTheory
-	PUBLIC webScraper
-	# PUBLIC deps/cpr
 )
 
 target_link_directories(${PROJECT_NAME} 
 	PRIVATE controlTheory
-	PRIVATE	webScraper
-	# PRIVATE cpr::cpr
 )
 
 target_link_libraries(${PROJECT_NAME} 
-	controlTheory 
-	webScraper 
-	# cpr::cpr
+	controlTheory
 )

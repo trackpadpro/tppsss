@@ -1,18 +1,17 @@
 #include <iostream>
+#include <fstream>
 #include <iomanip>
 #include <cstring>
 #include <time.h>
 #include "controlTheory.h"
-#include "webScraper.h"
 
 char input[6];
 time_t tmr;
-bool updatingCSV = true;
+bool updatingCSV = true, steamCommunity = true, stockMarket = true;
 
 int main(){
     long int unruh = time(&tmr);
-    webScraper* scraper;
-    scraper = new webScraper(&tmr);
+    long int xtal = time(&tmr)-300;
 
     std::cout<<"Online."<<std::endl;
 
@@ -25,7 +24,30 @@ int main(){
         }
 
         //Collect market data when non-break terminal command is given
-        updatingCSV = scraper->updateCSV();
+        std::ofstream writeCSV("data/marketData.csv");
+
+        writeCSV<<"time"<<std::endl<<ctime(&tmr);
+
+        if(time(&tmr)>xtal+300){
+            if(steamCommunity){
+                //steamCommunity = ;
+            }
+
+            if(stockMarket){
+                //stockMarket = ;
+            }
+
+            xtal = time(&tmr);
+        }
+
+        if(steamCommunity && stockMarket){
+            updatingCSV = true;
+        }
+
+        else{
+            std::cout<<"Markets Unavailable "<<ctime(&tmr);
+            updatingCSV = false;
+        }
         
         if(strcmp(input,"fetch")==0){
             //[call buy/sell calculation]
@@ -40,8 +62,6 @@ int main(){
             unruh = time(&tmr);
         }
     }
-
-    delete scraper;
 
     std::cout<<"Offline."<<std::endl;
 
