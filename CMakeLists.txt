@@ -29,6 +29,11 @@ if(NOT EXISTS "${CMAKE_SOURCE_DIR}/deps/curl/CMakeLists.txt")
     message(FATAL_ERROR "GIT_SUBMODULE was turned off or failed. Please update submodules and try again.")
 endif()
 
+set(MBEDTLS_INCLUDE_DIRS "${CMAKE_SOURCE_DIR}/deps/mbedtls/build/include/")
+set(MBEDTLS_LIBRARY "${CMAKE_SOURCE_DIR}/deps/mbedtls/build/library/libmbedtls.a")
+set(MBEDX509_LIBRARY "${CMAKE_SOURCE_DIR}/deps/mbedtls/build/library/libmbedx509.a")
+set(MBEDCRYPTO_LIBRARY "${CMAKE_SOURCE_DIR}/deps/mbedtls/build/library/libmbedcrypto.a")
+
 add_subdirectory(deps/curl)
 
 include_directories(
