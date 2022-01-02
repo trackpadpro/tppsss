@@ -11,5 +11,5 @@ cmake -S .\deps\mbedtls\ -B .\deps\mbedtls\build\
 cmake --build .\deps\mbedtls\build\
 ctest --test-dir .\deps\mbedtls\build\
 
-cmake -DCURL_USE_MBEDTLS=ON -S . -B .\build\
+cmake -S . -B .\build\
 make -C .\build\

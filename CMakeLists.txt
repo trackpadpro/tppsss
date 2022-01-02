@@ -34,11 +34,14 @@ set(MBEDTLS_LIBRARY "${CMAKE_SOURCE_DIR}/deps/mbedtls/build/library/libmbedtls.a
 set(MBEDX509_LIBRARY "${CMAKE_SOURCE_DIR}/deps/mbedtls/build/library/libmbedx509.a")
 set(MBEDCRYPTO_LIBRARY "${CMAKE_SOURCE_DIR}/deps/mbedtls/build/library/libmbedcrypto.a")
 
+set(CURL_USE_MBEDTLS ON)
+set(BUILD_CURL_EXE OFF)
+
 add_subdirectory(deps/curl)
 
 include_directories(
 	controlTheory
-	${CURL_INCLUDE_DIR}
+	"${CMAKE_SOURCE_DIR}/deps/curl/include"
 )
 
 target_link_directories(${PROJECT_NAME}
@@ -47,5 +50,5 @@ target_link_directories(${PROJECT_NAME}
 
 target_link_libraries(${PROJECT_NAME} 
 	controlTheory
-	${CURL_LIBRARIES}
+	CURL::libcurl
 )

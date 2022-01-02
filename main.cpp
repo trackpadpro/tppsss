@@ -2,6 +2,7 @@
 #include <fstream>
 #include <iomanip>
 #include <cstring>
+#include <string>
 #include <time.h>
 #include "controlTheory.h"
 #include <curl/curl.h>
@@ -9,6 +10,9 @@
 char input[6];
 time_t tmr;
 bool updatingCSV = true, steamCommunity = true, stockMarket = true;
+
+size_t writeFunction(void* contents, size_t size, size_t nmemb, std::string* data);
+bool updateSCM();
 
 int main(){
     long int unruh = time(&tmr);
@@ -25,9 +29,7 @@ int main(){
         }
 
         //Collect market data when non-break terminal command is given
-        std::ofstream writeCSV("./data/marketData.csv");
-
-        writeCSV<<"time"<<std::endl<<ctime(&tmr);
+        steamCommunity = updateSCM();
 
         if(time(&tmr)>xtal+300){
             if(steamCommunity){
@@ -67,4 +69,30 @@ int main(){
     std::cout<<"Offline."<<std::endl;
 
     return 0;
+}
+
+size_t writeFunction(void* contents, size_t size, size_t nmemb, std::string* data) {
+    data->append((char*) contents, size * nmemb);
+
+    return size * nmemb;
+}
+
+bool updateSCM(){
+    CURL* curl;
+    CURLcode res;
+    curl = curl_easy_init();
+    std::ofstream writeCSV("./data/marketData.csv");
+    std::string readString;
+
+    if (curl) {
+        curl_easy_setopt(curl, CURLOPT_URL, "http://steamcommunity.com/market/priceoverview/?market_hash_name=AK-47%20%7C%20Redline%20%28Field-Tested%29&appid=730&currency=1");
+        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, writeFunction);
+        curl_easy_setopt(curl, CURLOPT_WRITEDATA, &readString);
+        res = curl_easy_perform(curl);
+        curl_easy_cleanup(curl);
+    }
+
+    writeCSV<<readString<<"time"<<std::endl<<ctime(&tmr);
+
+    return true;
 }
