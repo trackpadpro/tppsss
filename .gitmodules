@@ -1,6 +1,1 @@
-[submodule "deps/curl"]
-	path = deps/curl
-	url = https://github.com/curl/curl.git
-[submodule "deps/mbedtls"]
-	path = deps/mbedtls
-	url = https://github.com/ARMmbed/mbedtls.git
+
