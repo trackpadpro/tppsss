@@ -1,4 +1,4 @@
-# State Space Solver
+# tppSSS (stateSpaceSolver)
 
 ## Building & Running
 
@@ -21,9 +21,9 @@ cURL library
 
 cd \Desired Download Directory\
 
-git clone https://github.com/trackpadpro/stateSpaceSolver
+git clone https://github.com/trackpadpro/tppsss.git
 
-cd .\stateSpaceSolver\
+cd .\tppsss\
 
 git checkout buildDeps
 * only if using buildDeps branch
