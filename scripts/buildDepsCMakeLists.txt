@@ -1,0 +1,39 @@
+cmake_minimum_required(VERSION 3.22.1)
+
+project(tripleS)
+
+set(EXECUTABLE_OUTPUT_PATH ${CMAKE_SOURCE_DIR})
+
+add_executable(${PROJECT_NAME} 
+	main.cpp
+)
+
+add_subdirectory(controlTheory)
+
+if(NOT EXISTS "${CMAKE_SOURCE_DIR}/deps/curl/CMakeLists.txt")
+    message(FATAL_ERROR "GIT_SUBMODULE was turned off or failed. Please update submodules and try again.")
+endif()
+
+set(MBEDTLS_INCLUDE_DIRS "${CMAKE_SOURCE_DIR}/deps/mbedtls/build/include/")
+set(MBEDTLS_LIBRARY "${CMAKE_SOURCE_DIR}/deps/mbedtls/build/library/libmbedtls.a")
+set(MBEDX509_LIBRARY "${CMAKE_SOURCE_DIR}/deps/mbedtls/build/library/libmbedx509.a")
+set(MBEDCRYPTO_LIBRARY "${CMAKE_SOURCE_DIR}/deps/mbedtls/build/library/libmbedcrypto.a")
+
+set(CURL_USE_MBEDTLS ON)
+set(BUILD_CURL_EXE OFF)
+
+add_subdirectory(deps/curl)
+
+include_directories(
+	controlTheory
+	"${CMAKE_SOURCE_DIR}/deps/curl/include"
+)
+
+target_link_directories(${PROJECT_NAME}
+	PRIVATE controlTheory
+)
+
+target_link_libraries(${PROJECT_NAME}
+	controlTheory
+	CURL::libcurl
+)
