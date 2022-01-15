@@ -39,5 +39,8 @@ Actions:
 		Most important aspect would be a kill button.
 Miscellaneous:
 	Ease of installation:
-		Allow clone + bootstrap script to build executable.
 		Provide .exe within releases on GitHub.
+	GitHub CI Workflows:
+		Troubleshoot Linux and Windows native builds.
+			Find documentation on file structure of these native builds and where cURL is located.
+			Alternatively, build a new cURL instance within workflow; due to current lack of tests, disabling SSL should be fine.
