@@ -26,11 +26,11 @@ jobs:
       - name: Install Deps Linux
         if: runner.os == 'Linux'
         run: |
-          sudo apt install curl
+          sudo apt install libcurl-dev
       - name: Install Deps Windows
         if: runner.os == 'Windows'
         run: |
-          choco install curl
+          vcpkg install curl:x64-windows
       - name: Configure
         run: cmake -S . -B build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
       - name: Build
