@@ -1,5 +1,8 @@
 # tppSSS (stateSpaceSolver)
 
+[![Actions Status](https://github.com/trackpadpro/tppsss/workflows/CMake%20MSYS2/badge.svg)](https://github.com/trackpadpro/tppsss/actions)
+[![Actions Status](https://github.com/trackpadpro/tppsss/workflows/CMake%20Native/badge.svg)](https://github.com/trackpadpro/tppsss/actions)
+
 ## Building & Running
 
 Only tested on Windows 10
