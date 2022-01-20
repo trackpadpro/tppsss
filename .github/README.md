@@ -5,7 +5,7 @@
 
 ## Building & Running
 
-Only tested on Windows 10
+Only manually tested on Windows 10
 
 ### Prerequisites
 
