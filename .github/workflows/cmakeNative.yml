@@ -23,13 +23,14 @@ jobs:
     name: ${{matrix.os}}
     steps:
       - uses: actions/checkout@v2
-      - name: Install Deps
+      - name: Install Deps Linux
+        if: runner.os == 'Linux'
         run: |
-          if ["$RUNNER_OS" == "Linux"]; then
-              sudo apt install curl
-          elif ["$RUNNER_OS" == "Windows"]; then
-              choco install curl
-          fi
+          sudo apt install curl
+      - name: Install Deps Windows
+        if: runner.os == 'Windows'
+        run: |
+          choco install curl
       - name: Configure
         run: cmake -S . -B build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
       - name: Build
