@@ -30,10 +30,13 @@ jobs:
       - name: Install Deps Windows
         if: runner.os == 'Windows'
         run: |
-          vcpkg integrate install
           vcpkg install curl:x64-windows
       - name: Configure
+        if: runner.os != 'Windows'
         run: cmake -S . -B build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
+      - name: Configure Windows
+        if: runner.os == 'Windows'
+        run: cmake -S . -B build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DCMAKE_TOOLCHAIN_FILE=C:\vcpkg\scripts\buildsystems\vcpkg.cmake
       - name: Build
         run: cmake --build build --config ${{env.BUILD_TYPE}}
       - name: Test
