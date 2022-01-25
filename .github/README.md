@@ -18,7 +18,7 @@ CMake with a build tool
 C/C++ compiler
 
 cURL library 
-* if none or not found, use buildDeps branch
+* if none or not found, use commands in .github/workflows
 
 ### Build Commands
 
@@ -27,9 +27,6 @@ cd \Desired Download Directory\
 git clone https://github.com/trackpadpro/tppsss.git
 
 cd .\tppsss\
-
-git checkout buildDeps
-* only if using buildDeps branch
 
 .\bootstrap.bat (bootstrap.ps1 script)
 
