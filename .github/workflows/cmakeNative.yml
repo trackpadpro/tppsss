@@ -23,8 +23,20 @@ jobs:
     name: ${{matrix.os}}
     steps:
       - uses: actions/checkout@v2
+      - name: Install Deps Linux
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt install libcurl4-openssl-dev
+      - name: Install Deps Windows
+        if: runner.os == 'Windows'
+        run: |
+          vcpkg install curl:x64-windows
       - name: Configure
+        if: runner.os != 'Windows'
         run: cmake -S . -B build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
+      - name: Configure Windows
+        if: runner.os == 'Windows'
+        run: cmake -S . -B build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DCMAKE_TOOLCHAIN_FILE=C:\vcpkg\scripts\buildsystems\vcpkg.cmake
       - name: Build
         run: cmake --build build --config ${{env.BUILD_TYPE}}
       - name: Test

@@ -40,7 +40,4 @@ Actions:
 Miscellaneous:
 	Ease of installation:
 		Provide .exe within releases on GitHub.
-	GitHub CI Workflows:
-		Troubleshoot Linux and Windows native builds.
-			Find documentation on file structure of these native builds and where cURL is located.
-			Alternatively, build a new cURL instance within workflow; due to current lack of tests, disabling SSL should be fine.
+	Turn GitHub workflow installation steps into bootstrap options.
