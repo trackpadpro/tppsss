@@ -89,7 +89,7 @@ bool updateSCM(){
     if(curl){
 	    curl_easy_setopt(curl,CURLOPT_FOLLOWLOCATION,1L);
 	    curl_easy_setopt(curl,CURLOPT_HTTPPROXYTUNNEL,1L);
-        curl_easy_setopt(curl,CURLOPT_URL, "http://steamcommunity.com/market/priceoverview/?market_hash_name=AK-47%20%7C%20Redline%20%28Field-Tested%29&appid=730&currency=1");
+        curl_easy_setopt(curl,CURLOPT_URL,"http://steamcommunity.com/market/priceoverview/?market_hash_name=AK-47%20%7C%20Redline%20%28Field-Tested%29&appid=730&currency=1");
         curl_easy_setopt(curl,CURLOPT_WRITEFUNCTION,writeFunction);
         curl_easy_setopt(curl,CURLOPT_WRITEDATA,&str);
         res = curl_easy_perform(curl);
