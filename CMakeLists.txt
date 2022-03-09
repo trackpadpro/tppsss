@@ -5,20 +5,16 @@ project(tripleS)
 set(EXECUTABLE_OUTPUT_PATH ${CMAKE_SOURCE_DIR})
 
 add_executable(${PROJECT_NAME} 
-	main.cpp
+	src/main.cpp
 )
 
-add_subdirectory(controlTheory)
+add_subdirectory(src)
 
 find_package(CURL REQUIRED)
 
 include_directories(
-	controlTheory
+	src/include
 	"${CURL_INCLUDE_DIRS}"
-)
-
-target_link_directories(${PROJECT_NAME}
-	PRIVATE controlTheory
 )
 
 target_link_libraries(${PROJECT_NAME}

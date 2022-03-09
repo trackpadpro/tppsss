@@ -81,7 +81,7 @@ bool updateSCM(){
     CURL* curl;
     CURLcode res;
     curl = curl_easy_init();
-    std::ofstream writeCSV("./data/marketData.csv");
+    std::ofstream writeCSV("./data/marketData.csv",std::ios::app);
     std::string readString;
 
     if (curl) {
