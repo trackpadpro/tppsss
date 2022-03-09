@@ -1,12 +1,9 @@
 name: CMake MSYS2
 
 on:
-  push:
-    branches: 
-      - main
   pull_request:
     branches:
-      - main
+      - master
   schedule:
     - cron: '30 7 1 * *'
 
