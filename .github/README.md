@@ -5,8 +5,6 @@
 
 ## Building & Running
 
-Only manually tested on Windows 10
-
 ### Prerequisites
 
 Terminal
@@ -17,28 +15,30 @@ CMake with a build tool
 
 C/C++ compiler
 
-cURL library 
-* if none or not found, use commands in .github/workflows
+Curl library 
+* If none or not found, use commands in .github/workflows to build/find dependencies
 
 ### Build Commands
 
+```
 cd \Desired Download Directory\
 
 git clone https://github.com/trackpadpro/tppsss.git
 
 cd .\tppsss\
 
-.\bootstrap.bat (bootstrap.ps1 script)
+.\bootstrap.bat   #scripts/bootstrap.ps1
+```
 
 ### Run Commands
 
+```
 .\tripleS.exe
 
-break 
-* end the program
+break             #end the program
 
-fetch 
-* request buy/sell calculations
+fetch             #request buy/sell calculations
+```
 
 #
 
