@@ -8,18 +8,53 @@
 #include <curl/curl.h>
 
 #define FETCHDELAY 120
+#define STEAMCOOKIESIZE 63
 
-char input[6];
+char input[5], steamCookie[STEAMCOOKIESIZE];
 time_t tmr;
+long int unruh = time(&tmr);
+long int xtal = time(&tmr)-FETCHDELAY;
 bool updatingCSV = true, steamCommunity = true, stockMarket = true;
 
 size_t writeFunction(void* contents,size_t size,size_t nmemb,std::string* data);
+void setup();
+bool authSteamCheck(char tempToken[STEAMCOOKIESIZE]);
 bool updateSCM();
 bool updateStonks();
 
 int main(){
-    long int unruh = time(&tmr);
-    long int xtal = time(&tmr)-FETCHDELAY;
+    std::ifstream authSteam("./data/auth/steamLoginSecure.txt");
+    if(authSteam.is_open()){
+        char temp[STEAMCOOKIESIZE];
+        authSteam.getline(temp,STEAMCOOKIESIZE+1);
+        authSteam.close();
+
+        if(authSteamCheck(temp)){
+            std::copy(std::begin(temp), std::end(temp), std::begin(steamCookie));
+        }
+
+        else{
+            std::cout<<"steamLoginSecure corrupted"<<std::endl;
+            setup();
+        }
+    }
+    
+    else{  
+        std::cout<<"Unable to find steamLoginSecure. This cookie is used for fetching full item price history.\nWould you like to set it? [y/n] ";
+        std::cin>>std::setw(2)>>input;
+
+        if(strcmp(input,"y")==0){
+            setup();
+        }
+
+        else if(strcmp(input,"n")==0){
+            std::cout<<"The steamLoginSecure cookie can be set later using the \"setup\" command."<<std::endl;
+        }
+
+        else{
+            std::cout<<"Unrecognized command. The steamLoginSecure cookie can be set later using the \"setup\" command."<<std::endl;
+        }
+    }
 
     std::cout<<"Online"<<std::endl;
 
@@ -55,9 +90,11 @@ int main(){
         
         if(strcmp(input,"fetch")==0){
             //[call buy/sell calculation]
-            //buy/sell calculation will occur within 
-            //cout<<"buy:"<<endl;
-            //cout<<"sell:"<<endl;
+            //Buy/sell calculation will utilize controlTheory.
+        }
+
+        else if(strcmp(input,"setup")==0){
+            setup();
         }
 
         //Prevent extremely long commands from causing spam
@@ -70,6 +107,42 @@ int main(){
     std::cout<<"Offline"<<std::endl;
 
     return 0;
+}
+
+void setup(){
+    std::cout<<"Your steamLoginSecure cookie can be found in a browser that is logged into the Steam Community.\nPlease enter the content of the cookie: ";
+    char temp[STEAMCOOKIESIZE];
+    std::cin>>std::setw(STEAMCOOKIESIZE+1)>>temp;
+
+    if(authSteamCheck(temp)){
+        std::copy(std::begin(temp), std::end(temp), std::begin(steamCookie));
+
+        std::ofstream authSteam("./data/auth/steamLoginSecure.txt");
+        authSteam<<temp;
+
+        std::cout<<"steamLoginSecure set"<<std::endl;
+    }
+
+    else{
+        std::cout<<"Invalid input. Try again later using the \"setup\" command."<<std::endl;
+    }
+
+    unruh = time(&tmr);
+}
+
+bool authSteamCheck(char tempToken[STEAMCOOKIESIZE]){
+    if(strlen(tempToken)==STEAMCOOKIESIZE){
+        /*
+        strchr(tempToken,'%')-strchr==17
+        strrchr(tempToken,'%')-strchr==20
+
+        [check that all non-% characters are numbers and capital letters]
+        */
+
+        return true;
+    }
+
+    return false;
 }
 
 size_t writeFunction(void* contents,size_t size,size_t nmemb,std::string* data){
@@ -99,7 +172,7 @@ bool updateSCM(){
     std::size_t found = str.find("true");
     
     if(found==std::string::npos){
-        std::cout<<"Steam Community Market unavailable"<<std::endl;
+        std::cout<<"Steam Community Market unavailable "<<ctime(&tmr);
 
         return false;
     }
@@ -122,7 +195,7 @@ bool updateSCM(){
 }
 
 bool updateStonks(){
-    std::cout<<"Stock market unavailable"<<std::endl;
+    std::cout<<"Stock market unavailable "<<ctime(&tmr);
 
     return false;
 }

@@ -7,5 +7,14 @@ if(-not(Test-Path -LiteralPath '.\data\')){
 	}
 }
 
+if(-not(Test-Path -LiteralPath '.\data\auth')){
+	try{
+		New-Item -Path '.\data\auth' -ItemType Directory -ErrorAction Stop | Out-Null #-Force
+	}
+	catch{
+		Write-Error -Message "Unable to create authentication directory. Error: $_" -ErrorAction Stop
+	}
+}
+
 cmake -S . -B .\build\
 cmake --build .\build\
