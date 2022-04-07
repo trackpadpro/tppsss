@@ -37,8 +37,6 @@ Makefile
 cmake_install.cmake
 install_manifest.txt
 Testing/
-
-# Custom
 build/
 
 # VSCode
@@ -47,3 +45,6 @@ build/
 
 # clangd
 .cache/
+
+# Security
+data/auth/
