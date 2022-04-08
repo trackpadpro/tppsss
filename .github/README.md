@@ -38,6 +38,8 @@ cd .\tppsss\
 break             #end the program
 
 fetch             #request buy/sell calculations
+
+setup             #input user-specific parameters
 ```
 
 #
