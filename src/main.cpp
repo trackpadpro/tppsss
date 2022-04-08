@@ -132,20 +132,20 @@ void setup(){
 
 bool authSteamCheck(char tempToken[STEAMCOOKIESIZE]){
     if(strlen(tempToken)==STEAMCOOKIESIZE){
-       if(tempToken[17]=='%'&&tempToken[20]=='%'){
-           //Do not use ::find_first_not_of to avoid converting to std::string
-           short int index = strspn(tempToken,"0123456789");
+        if(tempToken[17]=='%'&&tempToken[20]=='%'){
+            //Do not use ::find_first_not_of to avoid converting to std::string
+            short int index = strspn(tempToken,"0123456789");
 
-           if(index==17){
-               index = strspn(tempToken+18,"ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789");
+            if(index==17){
+                index = strspn(tempToken+18,"ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789");
 
-               if(index==2){
-                   index = strspn(tempToken+21,"ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789");
+                if(index==2){
+                    index = strspn(tempToken+21,"ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789");
 
-                   return index==STEAMCOOKIESIZE-21;
-               }
-           }
-       }
+                    return index==STEAMCOOKIESIZE-21;
+                }
+            }
+        }
     }
 
     return false;
