@@ -21,7 +21,7 @@ Curl library
 ### Build Commands
 
 ```
-cd \Desired Download Directory\
+cd \[DesiredDownloadDirectory]\
 
 git clone https://github.com/trackpadpro/tppsss.git
 
