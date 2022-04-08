@@ -12,8 +12,8 @@
 
 char input[5], steamCookie[STEAMCOOKIESIZE];
 time_t tmr;
-long int unruh = time(&tmr);
-long int xtal = time(&tmr)-FETCHDELAY;
+size_t unruh = time(&tmr);
+size_t xtal = time(&tmr)-FETCHDELAY;
 bool updatingCSV = true, steamCommunity = true, stockMarket = true;
 
 size_t writeFunction(void* contents,size_t size,size_t nmemb,std::string* data);
@@ -132,14 +132,20 @@ void setup(){
 
 bool authSteamCheck(char tempToken[STEAMCOOKIESIZE]){
     if(strlen(tempToken)==STEAMCOOKIESIZE){
-        /*
-        strchr(tempToken,'%')-strchr==17
-        strrchr(tempToken,'%')-strchr==20
+       if(tempToken[17]=='%'&&tempToken[20]=='%'){
+           //Do not use ::find_first_not_of to avoid converting to std::string
+           short int index = strspn(tempToken,"0123456789");
 
-        [check that all non-% characters are numbers and capital letters]
-        */
+           if(index==17){
+               index = strspn(tempToken+18,"ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789");
 
-        return true;
+               if(index==2){
+                   index = strspn(tempToken+21,"ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789");
+
+                   return index==STEAMCOOKIESIZE-21;
+               }
+           }
+       }
     }
 
     return false;
