@@ -18,8 +18,6 @@ jobs:
         shell: msys2 {0}
     steps:
       - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
       - uses: msys2/setup-msys2@v2
         with:
           msystem: mingw64
@@ -32,10 +30,7 @@ jobs:
             toolchain:p
             cmake:p
             ninja:p
-      - uses: actions/setup-go@v3
-        with:
-          go-version: '>=1.16.15'
-          check-latest: false
+            go:p
       - name: Configure & Build
         run: .\\bootstrap.bat -deps on
       - name: Initial Boot Example
