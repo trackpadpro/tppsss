@@ -2,3 +2,4 @@
 [submodule "deps/expect"]
 	path = deps/expect
 	url = https://github.com/hymkor/expect
+	ignore = dirty
