@@ -1,5 +1,5 @@
 echo(true)
-if spawn([[..\..\tppsss\tppsss.exe]]) then
+if spawn(arg[0]..[[\..\..\tppsss.exe]]) then
     timeout = 2
     RC = expect("[y/n]")
     timeout = 3600
