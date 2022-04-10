@@ -1,4 +1,4 @@
-name: CMake MSYS2
+name: CMake MSYS2 Example
 
 on:
   pull_request:
@@ -7,18 +7,13 @@ on:
   schedule:
     - cron: '0 5 * * 5'
 
-env:
-  BUILD_TOOL: Ninja
-  BUILD_TYPE: Release
-
 jobs:
   build:
     runs-on: windows-latest
     strategy:
       fail-fast: false
-      sys: mingw64
 
-    name: ${{sys}} ${{env.BUILD_TOOL}} Build with Initial Boot
+    name: mingw64 Build with Initial Boot
     defaults:
       run:
         shell: msys2 {0}
@@ -28,7 +23,7 @@ jobs:
           fetch-depth: 0
       - uses: msys2/setup-msys2@v2
         with:
-          msystem: ${{sys}}
+          msystem: mingw64
           update: true
           install: >-
             git
