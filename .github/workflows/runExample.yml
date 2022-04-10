@@ -12,26 +12,17 @@ jobs:
     runs-on: windows-latest
     strategy:
       fail-fast: false
-    name: mingw64 Build with Initial Boot
-    defaults:
-      run:
-        shell: msys2 {0}
+    name: Build with Initial Boot
     steps:
       - uses: actions/checkout@v3
-      - uses: msys2/setup-msys2@v2
+      - uses: actions/setup-go@v3
         with:
-          msystem: mingw64
-          update: true
-          install: >-
-            git
-            base-devel
-            make
-          pacboy: >-
-            toolchain:p
-            cmake:p
-            ninja:p
-            go:p
+          go-version: '>=1.16.15'
+      - name: Install libcurl
+        run: vcpkg install curl:x64-windows
       - name: Configure & Build
-        run: .\\bootstrap.bat -deps on
+        run: |
+          cmake -S . -DCMAKE_TOOLCHAIN_FILE=C:\vcpkg\scripts\buildsystems\vcpkg.cmake
+          .\\bootstrap.bat -deps on
       - name: Initial Boot Example
         run: powershell -ExecutionPolicy ByPass -File .\\scripts\\exampleExpectLua.ps1 -STEAM_LOGIN_COOKIE ${{secrets.STEAM_LOGIN_COOKIE}}
