@@ -8,7 +8,6 @@ on:
     - cron: '0 5 * * 5'
 
 env:
-  sys: mingw64
   BUILD_TOOL: Ninja
   BUILD_TYPE: Release
 
@@ -17,8 +16,9 @@ jobs:
     runs-on: windows-latest
     strategy:
       fail-fast: false
+      sys: mingw64
 
-    name: ${{env.sys}} ${{env.BUILD_TOOL}} Build with Initial Boot
+    name: ${{sys}} ${{env.BUILD_TOOL}} Build with Initial Boot
     defaults:
       run:
         shell: msys2 {0}
@@ -28,7 +28,7 @@ jobs:
           fetch-depth: 0
       - uses: msys2/setup-msys2@v2
         with:
-          msystem: ${{env.sys}}
+          msystem: ${{sys}}
           update: true
           install: >-
             git
