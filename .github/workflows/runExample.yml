@@ -12,7 +12,6 @@ jobs:
     runs-on: windows-latest
     strategy:
       fail-fast: false
-
     name: mingw64 Build with Initial Boot
     defaults:
       run:
@@ -33,6 +32,10 @@ jobs:
             toolchain:p
             cmake:p
             ninja:p
+      - uses: actions/setup-go@v3
+        with:
+          go-version: '>=1.16.15'
+          check-latest: false
       - name: Configure & Build
         run: .\\bootstrap.bat -deps on
       - name: Initial Boot Example
