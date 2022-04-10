@@ -1,4 +1,4 @@
-name: CMake MSYS2 Example
+name: Functional Example
 
 on:
   pull_request:
@@ -34,7 +34,7 @@ jobs:
             cmake:p
             ninja:p
       - name: Configure & Build
-        run: .\bootstrap.bat
+        run: .\\bootstrap.bat
       - name: Initial Boot Example
-        run: powershell -ExecutionPolicy ByPass -File .\scripts\exampleExpectLua.ps1 -STEAM_LOGIN_COOKIE=${{secrets.STEAM_LOGIN_COOKIE}}
+        run: powershell -ExecutionPolicy ByPass -File .\\scripts\\exampleExpectLua.ps1 -STEAM_LOGIN_COOKIE=${{secrets.STEAM_LOGIN_COOKIE}}
       
