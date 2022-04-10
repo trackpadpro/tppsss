@@ -6,7 +6,7 @@ if spawn([[..\..\tppsss\tripleS.exe]]) then
     expect("Online")
     send("setup\r")
     expect("cookie:")
-    send("${{secrets.STEAM_LOGIN_COOKIE}}\r")
+    send("STEAM_LOGIN_COOKIE\r")
     expect("steamLoginSecure set")
     send("break\r")
 end

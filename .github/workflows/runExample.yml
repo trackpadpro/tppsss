@@ -1,0 +1,45 @@
+name: CMake MSYS2
+
+on:
+  pull_request:
+    branches:
+      - master
+  schedule:
+    - cron: '0 5 * * 5'
+
+env:
+  sys: mingw64
+  BUILD_TOOL: Ninja
+  BUILD_TYPE: Release
+
+jobs:
+  build:
+    runs-on: windows-latest
+    strategy:
+      fail-fast: false
+
+    name: ${{env.sys}} ${{env.BUILD_TOOL}} Build with Initial Boot
+    defaults:
+      run:
+        shell: msys2 {0}
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - uses: msys2/setup-msys2@v2
+        with:
+          msystem: ${{env.sys}}
+          update: true
+          install: >-
+            git
+            base-devel
+            make
+          pacboy: >-
+            toolchain:p
+            cmake:p
+            ninja:p
+      - name: Configure & Build
+        run: .\bootstrap.bat
+      - name: Initial Boot Example
+        run: powershell -ExecutionPolicy ByPass -File .\scripts\exampleExpectLua.ps1 -STEAM_LOGIN_COOKIE=${{secrets.STEAM_LOGIN_COOKIE}}
+      
