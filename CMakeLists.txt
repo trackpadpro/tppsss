@@ -2,10 +2,12 @@ cmake_minimum_required(VERSION 3.22.1)
 
 project(tppsss)
 
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR})
-
 add_executable(${PROJECT_NAME} 
 	src/main.cpp
+)
+
+set_target_properties(${PROJECT_NAME} PROPERTIES 
+	RUNTIME_OUTPUT_DIRECTORY $<1:${CMAKE_SOURCE_DIR}>
 )
 
 add_subdirectory(src)
