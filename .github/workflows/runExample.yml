@@ -1,0 +1,28 @@
+name: Functional Example
+
+on:
+  pull_request:
+    branches:
+      - master
+  schedule:
+    - cron: '0 5 * * 5'
+
+jobs:
+  build:
+    runs-on: windows-latest
+    strategy:
+      fail-fast: false
+    name: Build with Initial Boot
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-go@v3
+        with:
+          go-version: '>=1.16.15'
+      - name: Install libcurl
+        run: vcpkg install curl:x64-windows
+      - name: Configure and Build
+        run: |
+          cmake -S . -B build -DCMAKE_TOOLCHAIN_FILE="${env:VCPKG_INSTALLATION_ROOT}\\scripts\\buildsystems\\vcpkg.cmake"
+          .\\bootstrap.bat -deps on
+      - name: Initial Boot Example
+        run: powershell -ExecutionPolicy ByPass -File .\\scripts\\exampleExpectLua.ps1 -STEAM_LOGIN_COOKIE ${{secrets.STEAM_LOGIN_COOKIE}}

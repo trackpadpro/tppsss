@@ -23,9 +23,7 @@ jobs:
       run:
         shell: msys2 {0}
     steps:
-      - uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
+      - uses: actions/checkout@v3
       - uses: msys2/setup-msys2@v2
         with:
           msystem: ${{matrix.sys}}
@@ -43,6 +41,4 @@ jobs:
           cmake -G "${{matrix.BUILD_TOOL}}" -S . -B build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
           cmake --build build --config ${{env.BUILD_TYPE}}
       - name: Test
-        run: |
-          ctest -C ${{env.BUILD_TYPE}}
-      
+        run: ctest -C ${{env.BUILD_TYPE}}

@@ -33,7 +33,7 @@ cd .\tppsss\
 ### Run Commands
 
 ```
-.\tripleS.exe
+.\tppsss.exe
 
 break             #end the program
 

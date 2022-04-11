@@ -30,6 +30,13 @@
 *.out
 *.app
 
+# VSCode
+.vscode/
+.vs/
+
+# clangd
+.cache/
+
 # CMake
 CMakeCache.txt
 CMakeFiles
@@ -38,13 +45,6 @@ cmake_install.cmake
 install_manifest.txt
 Testing/
 build/
-
-# VSCode
-.vscode/
-.vs/
-
-# clangd
-.cache/
 
 # Security
 data/auth/
