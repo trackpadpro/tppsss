@@ -25,4 +25,5 @@ jobs:
           cmake -S . -B build -DCMAKE_TOOLCHAIN_FILE="${env:VCPKG_INSTALLATION_ROOT}\\scripts\\buildsystems\\vcpkg.cmake"
           .\\bootstrap.bat -deps on
       - name: Initial Boot Example
+        shell: cmd
         run: powershell -ExecutionPolicy ByPass -File .\\scripts\\exampleExpectLua.ps1 -STEAM_LOGIN_COOKIE ${{secrets.STEAM_LOGIN_COOKIE}}
