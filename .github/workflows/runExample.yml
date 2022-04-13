@@ -8,22 +8,66 @@ on:
     - cron: '0 5 * * 5'
 
 jobs:
-  build:
+  job1:
     runs-on: windows-latest
     strategy:
       fail-fast: false
-    name: Build with Initial Boot
+    name: Windows Native Build with Initial Boot
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-go@v3
         with:
           go-version: '>=1.16.15'
-      - name: Install libcurl
+      - name: Install Deps
         run: vcpkg install curl:x64-windows
-      - name: Configure and Build
+      - name: Configure & Build
         run: |
           cmake -S . -B build -DCMAKE_TOOLCHAIN_FILE="${env:VCPKG_INSTALLATION_ROOT}\\scripts\\buildsystems\\vcpkg.cmake"
           .\\bootstrap.bat -deps on
       - name: Initial Boot Example
         shell: cmd
         run: .\scripts\exampleExpectLua.bat ${{secrets.STEAM_LOGIN_COOKIE}}
+  job2:
+    runs-on: windows-latest
+    strategy:
+      fail-fast: false
+    name: MSYS2 MinGW-w64 Build with Initial Boot
+    defaults:
+      run:
+        shell: msys2 {0}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: msys2/setup-msys2@v2
+        with:
+          msystem: mingw64
+          update: true
+          install: >-
+            git
+            base-devel
+            make
+            expect
+          pacboy: >-
+            toolchain:p
+            cmake:p
+            ninja:p
+      - name: Configure & Build
+        run: |
+          cmake -G Ninja -S . -B build
+          cmake --build build
+      - name: Initial Boot Example
+        run: scripts/exampleExpect.sh ${{secrets.STEAM_LOGIN_COOKIE}}
+  job3:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    name: Linux Build with Initial Boot
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install Deps
+        run: sudo apt install libcurl4-openssl-dev expect
+      - name: Configure & Build
+        run: |
+          cmake -S . -B build
+          cmake --build build
+      - name: Initial Boot Example
+        run: scripts/exampleExpect.sh ${{secrets.STEAM_LOGIN_COOKIE}}
