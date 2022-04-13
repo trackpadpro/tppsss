@@ -55,7 +55,7 @@ jobs:
           cmake -G Ninja -S . -B build
           cmake --build build
       - name: Initial Boot Example
-        run: scripts/exampleExpect.sh ${{secrets.STEAM_LOGIN_COOKIE}}
+        run: scripts/exampleExpect.tcl ${{secrets.STEAM_LOGIN_COOKIE}}
   job3:
     runs-on: ubuntu-latest
     strategy:
@@ -71,5 +71,5 @@ jobs:
           cmake --build build
       - name: Initial Boot Example
         run: |
-          chmod u+r+x scripts/exampleExpect.sh
-          scripts/exampleExpect.sh ${{secrets.STEAM_LOGIN_COOKIE}}
+          chmod u+r+x scripts/exampleExpect.tcl
+          scripts/exampleExpect.tcl ${{secrets.STEAM_LOGIN_COOKIE}}
