@@ -4,7 +4,7 @@ set SCRIPT_DIR [file dirname $argv0]
 set TPPSSS_DIR [file dirname $SCRIPT_DIR]
 set STEAM_LOGIN_COOKIE [lindex $argv 0]
 
-spawn $TPPSSS_DIR/tppsss.exe
+spawn $TPPSSS_DIR/tppsss
 
 set timeout 2
 
