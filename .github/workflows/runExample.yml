@@ -26,4 +26,4 @@ jobs:
           .\\bootstrap.bat -deps on
       - name: Initial Boot Example
         shell: cmd
-        run: powershell -ExecutionPolicy ByPass -File .\\scripts\\exampleExpectLua.ps1 -STEAM_LOGIN_COOKIE ${{secrets.STEAM_LOGIN_COOKIE}}
+        run: .\scripts\exampleExpectLua.bat ${{secrets.STEAM_LOGIN_COOKIE}}
