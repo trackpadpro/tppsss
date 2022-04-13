@@ -70,4 +70,6 @@ jobs:
           cmake -S . -B build
           cmake --build build
       - name: Initial Boot Example
-        run: scripts/exampleExpect.sh ${{secrets.STEAM_LOGIN_COOKIE}}
+        run: |
+          chmod u+r+x scripts/exampleExpect.sh
+          scripts/exampleExpect.sh ${{secrets.STEAM_LOGIN_COOKIE}}
