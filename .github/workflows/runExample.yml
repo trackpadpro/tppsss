@@ -64,7 +64,9 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Install Deps
-        run: sudo apt install libcurl4-openssl-dev expect
+        run: |
+          sudo apt update
+          sudo apt install libcurl4-openssl-dev expect
       - name: Configure & Build
         run: |
           cmake -S . -B build
