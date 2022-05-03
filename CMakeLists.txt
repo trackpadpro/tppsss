@@ -22,7 +22,13 @@ include_directories(
 )
 
 target_link_libraries(${PROJECT_NAME}
+	CURL::libcurl
 	controlTheory
+	SCM
+	stocks
+)
+
+target_link_libraries(SCM 
 	CURL::libcurl
 )
 
