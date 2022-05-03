@@ -1,5 +1,5 @@
-#ifndef SSSCONTROLTHEORY_H
-#define SSSCONTROLTHEORY_H
+#ifndef CONTROLTHEORY_H
+#define CONTROLTHEORY_H
 
 /*class webScraper{                                         OLD HEADER FOR WEB SCRAPER. ALTER.
 private:
