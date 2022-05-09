@@ -118,7 +118,6 @@ bool rebaseSCM(const char steamLoginSecure[STEAMCOOKIESIZE]){
             found = str.find(",\"")+2;
             size_t digits = found-str.find("\",")-1;
 
-            std::cout<<","<<str.substr(found,str.find("\"]")-found)<<str.substr(found-digits,digits-1)<<str.substr(0,18)<<std::endl;
             writeCSV<<","<<str.substr(found,str.find("\"]")-found)<<str.substr(found-digits,digits-1)<<str.substr(0,18)<<std::endl;
 
             found = str.find("[\"");
