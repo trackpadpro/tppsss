@@ -2,6 +2,7 @@
 #include <fstream>
 #include <iomanip>
 #include <cstring>
+#include <string>
 #include <time.h>
 #include <curl/curl.h>
 #include "SCM.h"
@@ -50,6 +51,11 @@ int main(){
         else{
             std::cout<<"Unrecognized command. The steamLoginSecure cookie can be set later using the \"setup\" command."<<std::endl;
         }
+    }
+
+    //This will be placed elsewhere once completed
+    if(!rebaseSCM(steamCookie)){
+        std::cout<<"Rebase failed"<<std::endl;
     }
 
     std::cout<<"Online"<<std::endl;
@@ -119,7 +125,7 @@ void setup(){
     std::cin>>std::setw(STEAMCOOKIESIZE+1)>>temp;
 
     if(authSteamCheck(temp)){
-        std::copy(std::begin(temp), std::end(temp), std::begin(steamCookie));
+        std::copy(std::begin(temp),std::end(temp),std::begin(steamCookie));
 
         std::ofstream authSteam("./data/auth/steamLoginSecure.txt");
         authSteam<<temp;
