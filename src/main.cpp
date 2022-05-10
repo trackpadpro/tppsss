@@ -13,8 +13,7 @@
 
 char input[5], steamCookie[STEAMCOOKIESIZE];
 time_t tmr;
-size_t unruh = time(&tmr);
-size_t xtal = time(&tmr)-FETCHDELAY;
+size_t unruh = time(&tmr), xtal = time(&tmr)-FETCHDELAY;
 bool updatingCSV = true, steamCommunity = true, stockMarket = true;
 
 void setup();
@@ -27,7 +26,7 @@ int main(){
         authSteam.close();
 
         if(authSteamCheck(temp)){
-            std::copy(std::begin(temp), std::end(temp), std::begin(steamCookie));
+            std::copy(std::begin(temp),std::end(temp),std::begin(steamCookie));
         }
 
         else{
@@ -53,9 +52,10 @@ int main(){
         }
     }
 
-    //This will be placed elsewhere once completed
-    if(!rebaseSCM(steamCookie)){
-        std::cout<<"Rebase failed"<<std::endl;
+    std::cout<<"Initializing price history"<<std::endl;
+
+    if(!rebaseSCM(tmr,steamCookie)){
+        std::cout<<"SCM rebase failed"<<std::endl;
     }
 
     std::cout<<"Online"<<std::endl;
@@ -71,6 +71,10 @@ int main(){
         //Collect market data when non-break terminal command is given
         if(time(&tmr)>xtal+FETCHDELAY){
             if(steamCommunity){
+                if(!rebaseSCM(tmr,steamCookie)){
+                    std::cout<<"SCM rebase failed"<<std::endl;
+                }
+                
                 steamCommunity = updateSCM(tmr);
 
                 if(!steamCommunity){

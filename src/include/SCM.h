@@ -4,6 +4,6 @@
 
 bool authSteamCheck(const char tempToken[STEAMCOOKIESIZE]);
 bool updateSCM(const time_t &tmr);
-bool rebaseSCM(const char steamLoginSecure[STEAMCOOKIESIZE]);
+bool rebaseSCM(const time_t &tmr,const char steamLoginSecure[STEAMCOOKIESIZE]);
 
 #endif
