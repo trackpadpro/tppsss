@@ -40,4 +40,4 @@ Actions:
 Miscellaneous:
 	Ease of installation:
 		Provide .exe within releases on GitHub.
-	Turn GitHub workflow installation steps into bootstrap options.
+	Move data to GitHub LFS?
