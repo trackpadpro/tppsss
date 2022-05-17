@@ -9,19 +9,23 @@ spawn $TPPSSS_DIR/tppsss
 set timeout 2
 
 expect "y/n" {
-	send "n\r"
+    send "n\r"
 }
 
 expect "Online" {
-	send "setup\r"
+    send "setup\r"
+}
+
+expect "y/n" {
+    send "y\r"
 }
 
 expect "content of the cookie" {
-	send "$STEAM_LOGIN_COOKIE\r"
+    send "$STEAM_LOGIN_COOKIE\r"
 }
 
 expect "steamLoginSecure set" {
-	send "break\r"
+    send "break\r"
 }
 
 interact

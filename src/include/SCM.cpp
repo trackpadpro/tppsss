@@ -54,6 +54,10 @@ bool updateSCM(const time_t &tmr){
     size_t found = str.find("true");
     
     if(found==std::string::npos){
+        #if defined(DEBUG)
+            std::cout<<"Steam item price overview unavailable"<<std::endl;
+        #endif
+        
         return false;
     }
 
@@ -105,6 +109,10 @@ bool rebaseSCM(const time_t &tmr,const char steamLoginSecure[STEAMCOOKIESIZE]){
                 
             //Fail rebase if CSV has future price entries
             if(strcmp(year,lyear)<0){
+                #if defined(DEBUG)
+                    std::cout<<"SCM price history contains a future year"<<std::endl;
+                #endif
+
                 return false;
             }
 
@@ -112,61 +120,21 @@ bool rebaseSCM(const time_t &tmr,const char steamLoginSecure[STEAMCOOKIESIZE]){
                 strncpy(clmonth,dateComma+1,3);
                 clmonth[3] = '\0';
 
-                if(strcmp(clmonth,"Jan")==0){
-                    strcpy(lmonth,"01");
-                }
-
-                else if(strcmp(clmonth,"Feb")==0){
-                    strcpy(lmonth,"02");
-                }
-
-                else if(strcmp(clmonth,"Mar")==0){
-                    strcpy(lmonth,"03");
-                }
-
-                else if(strcmp(clmonth,"Apr")==0){
-                    strcpy(lmonth,"04");
-                }
-
-                else if(strcmp(clmonth,"May")==0){
-                    strcpy(lmonth,"05");
-                }
-
-                else if(strcmp(clmonth,"Jun")==0){
-                    strcpy(lmonth,"06");
-                }
-
-                else if(strcmp(clmonth,"Jul")==0){
-                    strcpy(lmonth,"07");
-                }
-
-                else if(strcmp(clmonth,"Aug")==0){
-                    strcpy(lmonth,"08");
-                }
-
-                else if(strcmp(clmonth,"Sep")==0){
-                    strcpy(lmonth,"09");
-                }
-
-                else if(strcmp(clmonth,"Oct")==0){
-                    strcpy(lmonth,"10");
-                }
-
-                else if(strcmp(clmonth,"Nov")==0){
-                    strcpy(lmonth,"11");
-                }
-
-                else if(strcmp(clmonth,"Dec")==0){
-                    strcpy(lmonth,"12");
-                }
-
                 //Fail rebase if l time is not properly formatted
-                else{
+                if(!numMonth(clmonth,lmonth)){
+                    #if defined(DEBUG)
+                        std::cout<<"SCM CSV month value improperly formatted"<<std::endl;
+                    #endif
+
                     return false;
                 }
 
                 //Fail rebase if CSV has future price entries
                 if(strcmp(month,lmonth)<0){
+                    #if defined(DEBUG)
+                        std::cout<<"SCM price history contains a future month"<<std::endl;
+                    #endif
+
                     return false;
                 }
                 
@@ -178,10 +146,18 @@ bool rebaseSCM(const time_t &tmr,const char steamLoginSecure[STEAMCOOKIESIZE]){
 
                     //Fail rebase if CSV has future price entries
                     if(strcmp(day,lday)<0){
+                        #if defined(DEBUG)
+                            std::cout<<"SCM price history contains a future day"<<std::endl;
+                        #endif
+                        
                         return false;
                     }
 
                     else if(strcmp(day,lday)==0&&strcmp(hour,lhour)<0){
+                        #if defined(DEBUG)
+                            std::cout<<"SCM price history contains a future hour"<<std::endl;
+                        #endif
+
                         return false;
                     }
 
@@ -215,6 +191,10 @@ bool rebaseSCM(const time_t &tmr,const char steamLoginSecure[STEAMCOOKIESIZE]){
     size_t found = str.find("true");
     
     if(found==std::string::npos){
+        #if defined(DEBUG)
+            std::cout<<"Steam item price history unavailable"<<std::endl;
+        #endif
+
         return false;
     }
 
@@ -243,55 +223,11 @@ bool rebaseSCM(const time_t &tmr,const char steamLoginSecure[STEAMCOOKIESIZE]){
                 strncpy(clmonth,mdt,3);
                 clmonth[3] = '\0';
 
-                if(strcmp(clmonth,"Jan")==0){
-                    strcpy(month,"01");
-                }
+                if(!numMonth(clmonth,month)){
+                    #if defined(DEBUG)
+                        std::cout<<"SCM CSV month value improperly formatted"<<std::endl;
+                    #endif
 
-                else if(strcmp(clmonth,"Feb")==0){
-                    strcpy(month,"02");
-                }
-
-                else if(strcmp(clmonth,"Mar")==0){
-                    strcpy(month,"03");
-                }
-
-                else if(strcmp(clmonth,"Apr")==0){
-                    strcpy(month,"04");
-                }
-
-                else if(strcmp(clmonth,"May")==0){
-                    strcpy(month,"05");
-                }
-
-                else if(strcmp(clmonth,"Jun")==0){
-                    strcpy(month,"06");
-                }
-
-                else if(strcmp(clmonth,"Jul")==0){
-                    strcpy(month,"07");
-                }
-
-                else if(strcmp(clmonth,"Aug")==0){
-                    strcpy(month,"08");
-                }
-
-                else if(strcmp(clmonth,"Sep")==0){
-                    strcpy(month,"09");
-                }
-
-                else if(strcmp(clmonth,"Oct")==0){
-                    strcpy(month,"10");
-                }
-
-                else if(strcmp(clmonth,"Nov")==0){
-                    strcpy(month,"11");
-                }
-
-                else if(strcmp(clmonth,"Dec")==0){
-                    strcpy(month,"12");
-                }
-
-                else{
                     return false;
                 }
 
@@ -320,4 +256,60 @@ bool rebaseSCM(const time_t &tmr,const char steamLoginSecure[STEAMCOOKIESIZE]){
 
         return true;
     }
+}
+
+bool numMonth(char* clmonth,char* month){
+    if(strcmp(clmonth,"Jan")==0){
+        strcpy(month,"01");
+    }
+
+    else if(strcmp(clmonth,"Feb")==0){
+        strcpy(month,"02");
+    }
+
+    else if(strcmp(clmonth,"Mar")==0){
+        strcpy(month,"03");
+    }
+
+    else if(strcmp(clmonth,"Apr")==0){
+        strcpy(month,"04");
+    }
+
+    else if(strcmp(clmonth,"May")==0){
+        strcpy(month,"05");
+    }
+
+    else if(strcmp(clmonth,"Jun")==0){
+        strcpy(month,"06");
+    }
+
+    else if(strcmp(clmonth,"Jul")==0){
+        strcpy(month,"07");
+    }
+
+    else if(strcmp(clmonth,"Aug")==0){
+        strcpy(month,"08");
+    }
+
+    else if(strcmp(clmonth,"Sep")==0){
+        strcpy(month,"09");
+    }
+
+    else if(strcmp(clmonth,"Oct")==0){
+        strcpy(month,"10");
+    }
+
+    else if(strcmp(clmonth,"Nov")==0){
+        strcpy(month,"11");
+    }
+
+    else if(strcmp(clmonth,"Dec")==0){
+        strcpy(month,"12");
+    }
+
+    else{
+        return false;
+    }
+
+    return true;
 }

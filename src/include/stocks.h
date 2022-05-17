@@ -1,4 +1,4 @@
-#ifndef STOCKS_H
+#if !defined(STOCKS_H)
 #define STOCKS_H
 
 bool updateStonks();
