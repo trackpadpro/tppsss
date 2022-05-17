@@ -14,6 +14,9 @@ if spawn(arg[0]..[[\..\..\tppsss.exe]]) then
     expect("Online")
     send("setup\r")
 
+    expect("[y/n]")
+    send("y\r")
+
     expect("cookie:")
     send(arg[1].."\r")
 
