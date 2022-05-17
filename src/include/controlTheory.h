@@ -1,4 +1,4 @@
-#ifndef CONTROLTHEORY_H
+#if !defined(CONTROLTHEORY_H)
 #define CONTROLTHEORY_H
 
 /*class webScraper{                                         OLD HEADER FOR WEB SCRAPER. ALTER.

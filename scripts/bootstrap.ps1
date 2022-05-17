@@ -1,10 +1,2 @@
-param($deps)
-
-if($deps -eq 'on'){
-	cmake -S . -B .\build\ -DBUILD_DEPS=ON
-}
-else{
-	cmake -S . -B .\build\ -DBUILD_DEPS=OFF
-}
-
+cmake -S . -B .\build\ $args
 cmake --build .\build\

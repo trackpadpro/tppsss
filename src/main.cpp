@@ -9,17 +9,18 @@
 #include "stocks.h"
 #include "controlTheory.h"
 
-#define FETCHDELAY 120
+#define FETCHDELAY 15
 
 char input[5], steamCookie[STEAMCOOKIESIZE];
 time_t tmr;
 size_t unruh = time(&tmr), xtal = time(&tmr)-FETCHDELAY;
-bool updatingCSV = true, steamCommunity = true, stockMarket = true;
+bool updatingCSV = true, steamCommunity = true, stockMarket = true, cookieSCM = true;
 
 void setup();
 
 int main(){
     std::ifstream authSteam("./data/auth/steamLoginSecure.txt");
+
     if(authSteam.is_open()){
         char temp[STEAMCOOKIESIZE];
         authSteam.getline(temp,STEAMCOOKIESIZE+1);
@@ -54,7 +55,9 @@ int main(){
 
     std::cout<<"Initializing price history"<<std::endl;
 
-    if(!rebaseSCM(tmr,steamCookie)){
+    cookieSCM = rebaseSCM(tmr,steamCookie);
+    
+    if(!cookieSCM){
         std::cout<<"SCM rebase failed"<<std::endl;
     }
 
@@ -70,11 +73,15 @@ int main(){
 
         //Collect market data when non-break terminal command is given
         if(time(&tmr)>xtal+FETCHDELAY){
-            if(steamCommunity){
-                if(!rebaseSCM(tmr,steamCookie)){
+            if(cookieSCM){
+                cookieSCM = rebaseSCM(tmr,steamCookie);
+
+                if(!cookieSCM){
                     std::cout<<"SCM rebase failed"<<std::endl;
                 }
-                
+            }
+
+            if(steamCommunity){
                 steamCommunity = updateSCM(tmr);
 
                 if(!steamCommunity){
@@ -109,6 +116,7 @@ int main(){
 
         else if(strcmp(input,"setup")==0){
             setup();
+            unruh = time(&tmr);
         }
 
         //Prevent extremely long commands from causing spam
@@ -141,5 +149,5 @@ void setup(){
         std::cout<<"Invalid input. Try again later using the \"setup\" command."<<std::endl;
     }
 
-    unruh = time(&tmr);
+    cookieSCM = true;
 }
