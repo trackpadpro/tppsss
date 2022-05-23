@@ -37,16 +37,7 @@ bool updateSCM(const std::string appID,const std::string marketHashName,const ti
     CURL* curl;
     CURLcode res;
     curl = curl_easy_init();
-    std::ofstream writeCSV(dataPath+"steamData/"+appID+marketHashName+".csv",std::ios::app);
     std::string str;
-
-    if(!writeCSV.is_open()){
-        #if defined(DEBUG)
-            std::cout<<"Steam item price file unavailable"<<std::endl;
-        #endif
-
-        return false;
-    }
 
     //Fetch JSON as string
     if(curl){
@@ -70,6 +61,16 @@ bool updateSCM(const std::string appID,const std::string marketHashName,const ti
     }
 
     else{
+        std::ofstream writeCSV(dataPath+"steamData/"+appID+marketHashName+".csv",std::ios::app);
+
+        if(!writeCSV.is_open()){
+            #if defined(DEBUG)
+                std::cout<<"Steam item price file unavailable"<<std::endl;
+            #endif
+
+            return false;
+        }
+
         found = str.find("median");
         str.erase(0,found+16);
         str.pop_back();
@@ -85,13 +86,10 @@ bool updateSCM(const std::string appID,const std::string marketHashName,const ti
 }
 
 bool rebaseSCM(const std::string appID,const std::string marketHashName,const time_t &tmr,const std::string dataPath,const char steamLoginSecure[STEAMCOOKIESIZE]){
-    //Do not call function more than 20 times per minute using the same steamLoginSecure cookie (cap at 15)
+    //Do not call function more than 20 times per minute using the same steamLoginSecure cookie (cap below)
     //Price history uses UTC, which is [EDT+4]/[EST+5]
     //Price history uses median price
 
-    //Convert price to USD if price_prefix!=$
-
-    //Check if enough time has elapsed since last rebase
     std::ifstream rCSV(dataPath+"steamData/"+appID+marketHashName+".csv");
     char line[63], lline[63] = "", year[5], month[3], day[3], hour[3], lyear[5] = "0000", lmonth[3] = "00", lday[3] = "00", lhour[3] = "00", clmonth[4];
 
