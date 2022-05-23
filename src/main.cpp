@@ -10,8 +10,6 @@
 #include "stocks.h"
 #include "controlTheory.h"
 
-#define FETCHDELAY 15
-
 struct asset{
     std::string market; //Steam Community/Stock/?Crypto
     std::string div; //game/exchange
@@ -23,7 +21,7 @@ void setup();
 
 char input[5], steamCookie[STEAMCOOKIESIZE];
 time_t tmr;
-size_t unruh = time(&tmr), xtal = time(&tmr)-FETCHDELAY;
+size_t unruh = time(&tmr), xtal, rebaseCalls = 0;
 bool online = true, steamCommunity = false, stockMarket = false, cookieSCM = false;
 std::vector<asset> assets;
 
@@ -99,7 +97,6 @@ int main(){
 
     std::cout<<"Online"<<std::endl;
 
-    //Go offline if data cannot regularly be pulled
     while(std::cin.good()&&online){
         std::cin>>std::setw(6)>>input;
         std::cin.sync();
@@ -107,13 +104,29 @@ int main(){
         if(strcmp(input,"break")==0){
             break;
         }
-
-        //Collect market data when non-break terminal command is given
-        if(time(&tmr)>xtal+FETCHDELAY){
+        
+        if(strcmp(input,"fetch")==0){
             for(auto equity: assets){
+                //[loading bar]
+
                 if(equity.market=="steam"){
+                    if(rebaseCalls==0){
+                        xtal = time(&tmr)+60;
+                    }
+
+                    else if(time(&tmr)>xtal+rebaseCalls*5){
+                        xtal = time(&tmr)+60;
+                        rebaseCalls = 0;
+                    }
+                    
                     if(cookieSCM){
+                        while(time(&tmr)<xtal+rebaseCalls*5-60){
+                            //Delay SCM rebases that would otherwise cause the rate of cookie usage to exceed 12/min
+                        }
+
                         cookieSCM = rebaseSCM(equity.div,equity.hash,tmr,dataPath,steamCookie);
+
+                        ++rebaseCalls;
 
                         if(!cookieSCM){
                             std::cout<<"SCM rebase failed"<<std::endl;
@@ -138,10 +151,6 @@ int main(){
                 }
             }
 
-            xtal = time(&tmr);
-        }
-        
-        if(strcmp(input,"fetch")==0){
             //[call buy/sell calculation]
             //Buy/sell calculation will utilize controlTheory.
         }
