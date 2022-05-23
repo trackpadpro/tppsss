@@ -14,7 +14,7 @@ expect "y/n" {
 
 #Online
 expect "$$$>" {
-    send "fetch\r"
+    send "fetch\r" ;#This fetch should fail for CI
 }
 
 expect "$$$>" {
@@ -51,7 +51,7 @@ expect "sss>" {
 }
 
 expect "$$$>" {
-    send "fetch\r"
+    send "fetch\r" ;#This fetch will fail if the cookie fails
 }
 
 expect "$$$>" {

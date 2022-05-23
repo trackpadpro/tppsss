@@ -1,5 +1,6 @@
 #include <iostream>
 #include <fstream>
+#include <sstream>
 #include <iomanip>
 #include <cstring>
 #include <string>
@@ -393,7 +394,7 @@ void setup(){
                                     }
                                         
                                     else if(strlen(input)==1){
-                                        std::stringstream toInt(input);
+                                        std::istringstream toInt(input);
                                         toInt>>i;
 
                                         std::cout<<"Erase entry ["<<i<<"] "<<assets.at((page-1)*10+i).hash<<"? [y/n] "<<std::endl;

@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 3.22.1)
 
+set(CMAKE_CXX_EXTENSIONS OFF)
+
 project(tppsss)
 
 add_executable(${PROJECT_NAME} 
@@ -8,6 +10,8 @@ add_executable(${PROJECT_NAME}
 
 set_target_properties(${PROJECT_NAME} PROPERTIES 
 	RUNTIME_OUTPUT_DIRECTORY $<1:${CMAKE_SOURCE_DIR}>
+	CXX_STANDARD 11
+	CXX_STANDARD_REQUIRED YES
 )
 
 add_subdirectory(src)
