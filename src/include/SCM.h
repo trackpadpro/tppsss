@@ -3,7 +3,7 @@
     #define SCM_H
 
     bool authSteamCheck(const char tempToken[STEAMCOOKIESIZE]);
-    bool updateSCM(const time_t &tmr);
-    bool rebaseSCM(const time_t &tmr,const char steamLoginSecure[STEAMCOOKIESIZE]);
-    bool numMonth(char* clmonth,char* month);
+    bool updateSCM(const std::string appID,const std::string marketHashName,const time_t &tmr,const std::string dataPath);
+    bool rebaseSCM(const std::string appID,const std::string marketHashName,const time_t &tmr,const std::string dataPath,const char steamLoginSecure[STEAMCOOKIESIZE]);
+    bool numMonth(const char* clmonth,char* month);
 #endif

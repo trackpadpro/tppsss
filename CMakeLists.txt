@@ -13,6 +13,8 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
 add_subdirectory(src)
 
 file(MAKE_DIRECTORY data/auth)
+file(MAKE_DIRECTORY data/steamData)
+file(MAKE_DIRECTORY data/stockData)
 
 find_package(CURL REQUIRED)
 
