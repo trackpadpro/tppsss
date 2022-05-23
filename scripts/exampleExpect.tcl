@@ -21,6 +21,7 @@ expect "$$$>" {
     send "setup\r"
 }
 
+#Settings
 expect "sss>" {
     send "steam\r"
 }
