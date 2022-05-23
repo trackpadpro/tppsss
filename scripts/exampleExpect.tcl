@@ -12,8 +12,18 @@ expect "y/n" {
     send "n\r"
 }
 
-expect "Online" {
+#Online
+expect "$$$>" {
+    send "fetch\r" ;#This fetch should fail for CI
+}
+
+expect "$$$>" {
     send "setup\r"
+}
+
+#Settings
+expect "sss>" {
+    send "steam\r"
 }
 
 expect "y/n" {
@@ -24,7 +34,27 @@ expect "content of the cookie" {
     send "$STEAM_LOGIN_COOKIE\r"
 }
 
-expect "steamLoginSecure set" {
+expect "sss>" {
+    send "asset\r"
+}
+
+expect "y/n" {
+    send "y\r"
+}
+
+expect "skip" {
+    send "skip\r"
+}
+
+expect "sss>" {
+    send "leave\r"
+}
+
+expect "$$$>" {
+    send "fetch\r" ;#This fetch will fail if the cookie fails
+}
+
+expect "$$$>" {
     send "break\r"
 }
 

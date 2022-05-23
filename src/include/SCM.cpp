@@ -18,10 +18,10 @@ bool authSteamCheck(const char tempToken[STEAMCOOKIESIZE]){
         short int index = strspn(tempToken,"0123456789");
 
         if(index==17){
-            index = strspn(tempToken+18,"ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789");
+            char capNum[37] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
-            if(index==2){
-                index = strspn(tempToken+21,"ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789");
+            if(strspn(tempToken+18,capNum)==2){
+                index = strspn(tempToken+21,capNum);
 
                 return index==STEAMCOOKIESIZE-21;
             }
@@ -31,20 +31,19 @@ bool authSteamCheck(const char tempToken[STEAMCOOKIESIZE]){
     return false;
 }
 
-bool updateSCM(const time_t &tmr){
+bool updateSCM(const std::string appID,const std::string marketHashName,const time_t &tmr,const std::string dataPath){
     //Price overview uses 24hr volume with a comma if above 1000; thrown out. 
 
     CURL* curl;
     CURLcode res;
     curl = curl_easy_init();
-    std::ofstream writeCSV("./data/SCMData.csv",std::ios::app);
     std::string str;
 
     //Fetch JSON as string
     if(curl){
         curl_easy_setopt(curl,CURLOPT_FOLLOWLOCATION,1L);
         curl_easy_setopt(curl,CURLOPT_HTTPPROXYTUNNEL,1L);
-        curl_easy_setopt(curl,CURLOPT_URL,"https://steamcommunity.com/market/priceoverview/?market_hash_name=Dreams%20%26%20Nightmares%20Case&appid=730&currency=1");
+        curl_easy_setopt(curl,CURLOPT_URL,("https://steamcommunity.com/market/priceoverview/?currency=1&appid="+appID+"&market_hash_name="+marketHashName).c_str());
         curl_easy_setopt(curl,CURLOPT_WRITEFUNCTION,writeFunction);
         curl_easy_setopt(curl,CURLOPT_WRITEDATA,&str);
         res = curl_easy_perform(curl);
@@ -62,6 +61,16 @@ bool updateSCM(const time_t &tmr){
     }
 
     else{
+        std::ofstream writeCSV(dataPath+"steamData/"+appID+marketHashName+".csv",std::ios::app);
+
+        if(!writeCSV.is_open()){
+            #if defined(DEBUG)
+                std::cout<<"Steam item price file unavailable"<<std::endl;
+            #endif
+
+            return false;
+        }
+
         found = str.find("median");
         str.erase(0,found+16);
         str.pop_back();
@@ -76,15 +85,12 @@ bool updateSCM(const time_t &tmr){
     }
 }
 
-bool rebaseSCM(const time_t &tmr,const char steamLoginSecure[STEAMCOOKIESIZE]){
-    //Do not call function more than 20 times per minute using the same steamLoginSecure cookie (cap at 15)
+bool rebaseSCM(const std::string appID,const std::string marketHashName,const time_t &tmr,const std::string dataPath,const char steamLoginSecure[STEAMCOOKIESIZE]){
+    //Do not call function more than 20 times per minute using the same steamLoginSecure cookie (cap below)
     //Price history uses UTC, which is [EDT+4]/[EST+5]
     //Price history uses median price
 
-    //Convert price to USD if price_prefix!=$
-
-    //Check if enough time has elapsed since last rebase
-    std::ifstream rCSV("./data/SCMData.csv");
+    std::ifstream rCSV(dataPath+"steamData/"+appID+marketHashName+".csv");
     char line[63], lline[63] = "", year[5], month[3], day[3], hour[3], lyear[5] = "0000", lmonth[3] = "00", lday[3] = "00", lhour[3] = "00", clmonth[4];
 
     if(rCSV.good()){
@@ -174,14 +180,15 @@ bool rebaseSCM(const time_t &tmr,const char steamLoginSecure[STEAMCOOKIESIZE]){
     CURLcode res;
     curl = curl_easy_init();
     std::string str, mdate;
-    char pre[18+STEAMCOOKIESIZE] = "steamLoginSecure=";
 
     //Fetch JSON as string
     if(curl){
+        char pre[18+STEAMCOOKIESIZE] = "steamLoginSecure=";
+
         curl_easy_setopt(curl,CURLOPT_FOLLOWLOCATION,1L);
         curl_easy_setopt(curl,CURLOPT_HTTPPROXYTUNNEL,1L);
         curl_easy_setopt(curl,CURLOPT_COOKIE,strcat(pre,steamLoginSecure));
-        curl_easy_setopt(curl,CURLOPT_URL,"https://steamcommunity.com/market/pricehistory/?appid=730&market_hash_name=Dreams%20%26%20Nightmares%20Case");
+        curl_easy_setopt(curl,CURLOPT_URL,("https://steamcommunity.com/market/pricehistory/?currency=1&appid="+appID+"&market_hash_name="+marketHashName).c_str());
         curl_easy_setopt(curl,CURLOPT_WRITEFUNCTION,writeFunction);
         curl_easy_setopt(curl,CURLOPT_WRITEDATA,&str);
         res = curl_easy_perform(curl);
@@ -199,10 +206,16 @@ bool rebaseSCM(const time_t &tmr,const char steamLoginSecure[STEAMCOOKIESIZE]){
     }
 
     else{
-        //Insert currency guard
-
         found = str.find("[\"");
-        std::ofstream wCSV("./data/SCMData.csv",std::ios::app);
+        std::ofstream wCSV(dataPath+"steamData/"+appID+marketHashName+".csv",std::ios::app);
+
+        if(!wCSV.is_open()){
+            #if defined(DEBUG)
+                std::cout<<"Steam item price file unavailable"<<std::endl;
+            #endif
+
+            return false;
+        }
 
         while(found!=std::string::npos){
             str.erase(0,found+2);
@@ -258,7 +271,7 @@ bool rebaseSCM(const time_t &tmr,const char steamLoginSecure[STEAMCOOKIESIZE]){
     }
 }
 
-bool numMonth(char* clmonth,char* month){
+bool numMonth(const char* clmonth,char* month){
     if(strcmp(clmonth,"Jan")==0){
         strcpy(month,"01");
     }
