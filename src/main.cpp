@@ -98,6 +98,7 @@ int main(){
     std::cout<<"Online"<<std::endl;
 
     while(std::cin.good()&&online){
+        std::cout<<"$$$> ";
         std::cin>>std::setw(6)>>input;
         std::cin.sync();
 
@@ -178,6 +179,7 @@ void setup(){
     std::cout<<"Select a setting: [steam\n                   asset\n                   leave]"<<std::endl;
 
     while(std::cin.good()){
+        std::cout<<"sss> ";
         std::cin>>std::setw(6)>>input;
         std::cin.sync();
 
@@ -377,12 +379,17 @@ void setup(){
                                         break;
                                     }
 
-                                    else if(strcmp(input,"next")==0&&page<pages){
-                                        ++page;
+                                    else if(strcmp(input,"next")==0){
+                                        //Nest to avoid "Unrecognized command" output
+                                        if(page<pages-1||(excess>0&&page<pages)){
+                                            ++page;
+                                        }
                                     }
 
-                                    else if(strcmp(input,"prev")==0&&page>1){
-                                        --page;
+                                    else if(strcmp(input,"prev")==0){
+                                        if(page>1){
+                                            --page;
+                                        }
                                     }
                                         
                                     else if(strlen(input)==1){
