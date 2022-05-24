@@ -31,6 +31,8 @@ char uc[21] = "Unrecognized command";
 char ucSteam[96] = "Unrecognized command. The steamLoginSecure cookie can be set later using the \"setup\" command.";
 
 int main(){
+    std::cout<<std::setprecision(2)<<std::fixed;
+
     std::ifstream authSteam(dataPath+"auth/steamLoginSecure.txt");
 
     if(authSteam.good()){
@@ -108,9 +110,11 @@ int main(){
         }
         
         if(strcmp(input,"fetch")==0){
-            for(auto equity: assets){
-                //[loading bar]
+            float completion = 0;
 
+            std::cout<<"Fetching market data..."<<std::endl;
+
+            for(auto equity: assets){
                 if(equity.market=="steam"){
                     if(rebaseCalls==0){
                         xtal = time(&tmr)+60;
@@ -151,7 +155,11 @@ int main(){
                         std::cout<<"Stock market unavailable "<<ctime(&tmr);
                     }
                 }
+
+                std::cout<<++completion*100/(float)assets.size()<<"%\r";
             }
+
+            std::cout<<std::endl;
 
             //[call buy/sell calculation]
             //Buy/sell calculation will utilize controlTheory.
