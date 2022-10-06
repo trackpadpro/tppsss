@@ -19,6 +19,7 @@ struct asset{
 };
 
 void setup();
+void unrecognized();
 
 char input[5], steamCookie[STEAMCOOKIESIZE];
 time_t tmr;
@@ -26,14 +27,10 @@ size_t unruh = time(&tmr), xtal, rebaseCalls = 0;
 bool online = true, steamCommunity = false, stockMarket = false, cookieSCM = false;
 std::vector<asset> assets;
 
-std::string dataPath = "./data/";
-char uc[21] = "Unrecognized command";
-char ucSteam[96] = "Unrecognized command. The steamLoginSecure cookie can be set later using the \"setup\" command.";
-
 int main(){
     std::cout<<std::setprecision(2)<<std::fixed;
 
-    std::ifstream authSteam(dataPath+"auth/steamLoginSecure.txt");
+    std::ifstream authSteam("./data/auth/steamLoginSecure.txt");
 
     if(authSteam.good()){
         char temp[STEAMCOOKIESIZE];
@@ -66,11 +63,11 @@ int main(){
         }
 
         else{
-            std::cout<<ucSteam<<std::endl;
+            unrecognized();
         }
     }
 
-    std::ifstream assetFile(dataPath+"trackList.txt");
+    std::ifstream assetFile("./data/trackList.txt");
 
     if(assetFile.is_open()){
         asset temp;
@@ -95,7 +92,7 @@ int main(){
     }
 
     else{
-        std::cout<<"\""+dataPath+"trackList.txt\" not found"<<std::endl;
+        std::cout<<"\"./data/trackList.txt\" not found"<<std::endl;
     }
 
     std::cout<<"Online"<<std::endl;
@@ -130,7 +127,7 @@ int main(){
                             //Delay SCM rebases that would otherwise cause the rate of cookie usage to exceed 12/min
                         }
 
-                        cookieSCM = rebaseSCM(equity.div,equity.hash,tmr,dataPath,steamCookie);
+                        cookieSCM = rebaseSCM(equity.div,equity.hash,tmr,steamCookie);
 
                         ++rebaseCalls;
 
@@ -140,7 +137,7 @@ int main(){
                     }
 
                     if(steamCommunity){
-                        steamCommunity = updateSCM(equity.div,equity.hash,tmr,dataPath);
+                        steamCommunity = updateSCM(equity.div,equity.hash,tmr);
 
                         if(!steamCommunity){
                             std::cout<<"Steam Community Market unavailable "<<ctime(&tmr);
@@ -173,7 +170,7 @@ int main(){
 
         //Prevent extremely long commands from causing spam
         else if(time(&tmr)>unruh+1){
-            std::cout<<uc<<std::endl;
+            unrecognized();
 
             unruh = time(&tmr);
         }
@@ -216,7 +213,7 @@ void setup(){
                 if(authSteamCheck(temp)){
                     std::copy(std::begin(temp),std::end(temp),std::begin(steamCookie));
 
-                    std::ofstream authSteam(dataPath+"auth/steamLoginSecure.txt");
+                    std::ofstream authSteam("./data/auth/steamLoginSecure.txt");
 
                     if(authSteam.is_open()){
                         authSteam<<temp;
@@ -234,7 +231,7 @@ void setup(){
 
             else if(strcmp(input,"n")!=0){
                 if(time(&tmr)>unruh+1){
-                    std::cout<<ucSteam<<std::endl;
+                    unrecognized();
 
                     unruh = time(&tmr);
                 }    
@@ -246,15 +243,13 @@ void setup(){
             std::cin>>std::setw(2)>>input;
             std::cin.sync();
 
-            char ucAsset[91] = "Unrecognized command. The tracked assets can be changed later using the \"setup\" command.";
-
             if(strcmp(input,"y")==0){
                 std::cout<<"Would you like to [set/clear/skip]? ";
                 std::cin>>std::setw(6)>>input;
                 std::cin.sync();
 
                 if(strcmp(input,"set")==0||strcmp(input,"clear")==0){
-                    std::fstream assetFile(dataPath+"trackList.txt",std::ios::app);
+                    std::fstream assetFile("./data/trackList.txt",std::ios::app);
 
                     if(assetFile.is_open()){
                         while(assetFile.good()){
@@ -286,7 +281,7 @@ void setup(){
                                 if(!(temp.market=="steam"||temp.market=="stock"||temp.market=="crypt")){
                                     flag = true;
 
-                                    std::cout<<uc<<std::endl;
+                                    unrecognized();
                                 }
 
                                 if(temp.market=="steam"&&!flag){
@@ -320,7 +315,7 @@ void setup(){
                                         else{
                                             flag = true;
 
-                                            std::cout<<uc<<std::endl;
+                                            unrecognized();
                                         }
                                     }
 
@@ -412,7 +407,7 @@ void setup(){
                                         if(strcmp(input,"y")==0){
                                             assets.erase(assets.begin()+(page-1)*10+i);
 
-                                            std::ofstream assetFile(dataPath+"trackList.txt");
+                                            std::ofstream assetFile("./data/trackList.txt");
 
                                             if(assetFile.is_open()){
                                                 assetFile<<assets.at(0).market<<" "<<assets.at(0).div<<" "<<assets.at(0).hash;
@@ -423,17 +418,17 @@ void setup(){
                                             }
 
                                             else{
-                                                std::cout<<"\""+dataPath+"trackList.txt\" not found"<<std::endl;
+                                                std::cout<<"\"./data/trackList.txt\" not found"<<std::endl;
                                             }
                                         }
 
                                         else if(strcmp(input,"n")!=0){
-                                            std::cout<<uc<<std::endl;
+                                            unrecognized();
                                         }
                                     }
 
                                     else{
-                                        std::cout<<uc<<std::endl;
+                                        unrecognized();
                                     }
                                 }
                             }
@@ -450,7 +445,7 @@ void setup(){
 
                             else if(strcmp(input,"n")!=0){
                                 if(time(&tmr)>unruh+1){
-                                    std::cout<<uc<<std::endl;
+                                    unrecognized();
 
                                     unruh = time(&tmr);
                                 }
@@ -463,13 +458,13 @@ void setup(){
                     }
 
                     else{
-                        std::cout<<"\""+dataPath+"trackList.txt\" not found"<<std::endl;
+                        std::cout<<"\"./data/trackList.txt\" not found"<<std::endl;
                     }
                 }
 
                 else if(strcmp(input,"skip")!=0){
                     if(time(&tmr)>unruh+1){
-                        std::cout<<ucAsset<<std::endl;
+                        unrecognized();
 
                         unruh = time(&tmr);
                     }
@@ -477,13 +472,13 @@ void setup(){
             }
 
             else if(strcmp(input,"n")!=0){
-                std::cout<<ucAsset<<std::endl;
+                unrecognized();
             }
         }
 
         else{
             if(time(&tmr)>unruh+1){
-                std::cout<<uc<<std::endl;
+                unrecognized();
 
                 unruh = time(&tmr);
             }
@@ -491,4 +486,8 @@ void setup(){
     }
 
     std::cout<<"Settings closed"<<std::endl;
+}
+
+void unrecognized(){
+    std::cout<<"Unrecognized command"<<std::endl;
 }

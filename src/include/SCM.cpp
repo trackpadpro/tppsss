@@ -31,7 +31,7 @@ bool authSteamCheck(const char tempToken[STEAMCOOKIESIZE]){
     return false;
 }
 
-bool updateSCM(const std::string appID,const std::string marketHashName,const time_t &tmr,const std::string dataPath){
+bool updateSCM(const std::string appID,const std::string marketHashName,const time_t &tmr){
     //Price overview uses 24hr volume with a comma if above 1000; thrown out. 
 
     CURL* curl;
@@ -61,7 +61,7 @@ bool updateSCM(const std::string appID,const std::string marketHashName,const ti
     }
 
     else{
-        std::ofstream writeCSV(dataPath+"steamData/"+appID+marketHashName+".csv",std::ios::app);
+        std::ofstream writeCSV("./data/steamData/"+appID+marketHashName+".csv",std::ios::app);
 
         if(!writeCSV.is_open()){
             #if defined(DEBUG)
@@ -85,12 +85,12 @@ bool updateSCM(const std::string appID,const std::string marketHashName,const ti
     }
 }
 
-bool rebaseSCM(const std::string appID,const std::string marketHashName,const time_t &tmr,const std::string dataPath,const char steamLoginSecure[STEAMCOOKIESIZE]){
+bool rebaseSCM(const std::string appID,const std::string marketHashName,const time_t &tmr,const char steamLoginSecure[STEAMCOOKIESIZE]){
     //Do not call function more than 20 times per minute using the same steamLoginSecure cookie (cap below)
     //Price history uses UTC, which is [EDT+4]/[EST+5]
     //Price history uses median price
 
-    std::ifstream rCSV(dataPath+"steamData/"+appID+marketHashName+".csv");
+    std::ifstream rCSV("./data/steamData/"+appID+marketHashName+".csv");
     char line[63], lline[63] = "", year[5], month[3], day[3], hour[3], lyear[5] = "0000", lmonth[3] = "00", lday[3] = "00", lhour[3] = "00", clmonth[4];
 
     if(rCSV.good()){
@@ -207,7 +207,7 @@ bool rebaseSCM(const std::string appID,const std::string marketHashName,const ti
 
     else{
         found = str.find("[\"");
-        std::ofstream wCSV(dataPath+"steamData/"+appID+marketHashName+".csv",std::ios::app);
+        std::ofstream wCSV("./data/steamData/"+appID+marketHashName+".csv",std::ios::app);
 
         if(!wCSV.is_open()){
             #if defined(DEBUG)
