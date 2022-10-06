@@ -8,26 +8,7 @@ on:
     - cron: '0 5 * * 5'
 
 jobs:
-  job1:
-    runs-on: windows-latest
-    strategy:
-      fail-fast: false
-    name: Windows Native Build with Initial Boot
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-go@v3
-        with:
-          go-version: '>=1.16.15'
-      - name: Install Deps
-        run: vcpkg install curl:x64-windows
-      - name: Configure & Build
-        run: |
-          cmake -S . -B build -DCMAKE_TOOLCHAIN_FILE="${env:VCPKG_INSTALLATION_ROOT}\scripts\buildsystems\vcpkg.cmake"
-          .\bootstrap.bat -DBUILD_DEPS=ON -DENABLE_DEBUG=ON
-      - name: Initial Boot Example
-        shell: cmd
-        run: .\scripts\exampleExpectLua.bat ${{secrets.STEAM_LOGIN_COOKIE}}
-  job2:
+  MinGW64:
     runs-on: windows-latest
     strategy:
       fail-fast: false
@@ -56,7 +37,7 @@ jobs:
           cmake --build build
       - name: Initial Boot Example
         run: scripts/exampleExpect.tcl ${{secrets.STEAM_LOGIN_COOKIE}}
-  job3:
+  Ubuntu:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -75,7 +56,7 @@ jobs:
         run: |
           chmod u+r+x scripts/exampleExpect.tcl
           scripts/exampleExpect.tcl ${{secrets.STEAM_LOGIN_COOKIE}}
-  job4:
+  MacOS:
     runs-on: macos-latest
     strategy:
       fail-fast: false
