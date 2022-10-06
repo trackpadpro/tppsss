@@ -20,7 +20,7 @@ Model:
 Actions:
 	Crash rejection:
 		If market falls or surges by over TBD%, notification given, but nothing automated should occur.
-			TBD% could be based on the envelope; if significant deviation outside of envelope occurs, user input should be required due to the news not being utilized.
+			TBD% could be based on the envelope; if significant deviation outside of envelope occurs, user input should be required.
 	Notifications:
 		Noteworthy market movements and buy/sell recommendations could be communicated through Discord messages.
 		Recommendations:
@@ -38,6 +38,7 @@ Actions:
 		Extremely long-term goal that would require broker with insignificant commissions.
 		Most important aspect would be a kill button.
 Miscellaneous:
-	Ease of installation:
-		Provide .exe within releases on GitHub.
-	Move data to GitHub LFS?
+	Remove git submodules until further notice.
+	Add multithreading.
+	Compartmentalize code from main.
+	Make assets into classes.
