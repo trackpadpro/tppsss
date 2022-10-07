@@ -5,13 +5,18 @@
 #include <cstring>
 #include <string>
 #include <vector>
+#include <thread>
+#include <atomic>
+#include <mutex>
 #include <time.h>
+
 #include <curl/curl.h>
+
 #include "SCM.h"
 #include "stocks.h"
 #include "controlTheory.h"
 
-struct asset{
+struct Asset{
     std::string market; //Steam Community/Stock/?Crypto
     std::string div; //game/exchange
     std::string hash; /*market hash name/ticker
@@ -20,12 +25,16 @@ struct asset{
 
 void setup();
 void unrecognized();
+void fetch(Asset equity);
 
 char input[5], steamCookie[STEAMCOOKIESIZE];
 time_t tmr;
-size_t unruh = time(&tmr), xtal, rebaseCalls = 0;
-bool online = true, steamCommunity = false, stockMarket = false, cookieSCM = false;
-std::vector<asset> assets;
+size_t unruh = time(&tmr), rebaseCalls = 0;
+std::atomic<bool> online(true), steamCommunity(false), stockMarket(false), cookieSCM(false);
+std::vector<Asset> assets;
+std::mutex assetMutex;
+std::mutex completionMutex;
+float completion;
 
 int main(){
     std::cout<<std::setprecision(2)<<std::fixed;
@@ -42,7 +51,6 @@ int main(){
 
             cookieSCM = true;
         }
-
         else{
             std::cout<<"steamLoginSecure corrupted"<<std::endl;
             setup();
@@ -57,20 +65,18 @@ int main(){
         if(strcmp(input,"y")==0){
             setup();
         }
-
         else if(strcmp(input,"n")==0){
             std::cout<<"The steamLoginSecure cookie can be set later using the \"setup\" command."<<std::endl;
         }
-
         else{
             unrecognized();
         }
     }
 
-    std::ifstream assetFile("./data/trackList.txt");
+    std::ifstream assetFile("./data/trackList.txt"); //Will close before the loop
 
     if(assetFile.is_open()){
-        asset temp;
+        Asset temp;
 
         while(assetFile.good()){
             //This loop will add an extra asset to the vector if the tracking list is '\n'-terminated
@@ -82,7 +88,6 @@ int main(){
             if(temp.market=="steam"){
                 steamCommunity = true;
             }
-
             else if(temp.market=="stock"){
                 stockMarket = true;
             }
@@ -90,10 +95,11 @@ int main(){
 
         assetFile.close();
     }
-
     else{
         std::cout<<"\"./data/trackList.txt\" not found"<<std::endl;
     }
+
+    curl_global_init(CURL_GLOBAL_ALL);
 
     std::cout<<"Online"<<std::endl;
 
@@ -102,72 +108,52 @@ int main(){
         std::cin>>std::setw(6)>>input;
         std::cin.sync();
 
-        if(strcmp(input,"break")==0){
-            break;
-        }
-        
-        if(strcmp(input,"fetch")==0){
-            float completion = 0;
+        if(strcmp(input,"break")==0) break;
+
+        else if(strcmp(input,"fetch")==0){
+            completion = 0;
 
             std::cout<<"Fetching market data..."<<std::endl;
 
-            for(auto equity: assets){
-                if(equity.market=="steam"){
-                    if(rebaseCalls==0){
-                        xtal = time(&tmr)+60;
+            #if defined(THREAD)
+                {
+                    std::vector<std::thread> runners;
+
+                    for(auto equity: assets){
+                        runners.push_back(std::thread(fetch,equity));
                     }
-
-                    else if(time(&tmr)>xtal+rebaseCalls*5){
-                        xtal = time(&tmr)+60;
-                        rebaseCalls = 0;
-                    }
-                    
-                    if(cookieSCM){
-                        while(time(&tmr)<xtal+rebaseCalls*5-60){
-                            //Delay SCM rebases that would otherwise cause the rate of cookie usage to exceed 12/min
-                        }
-
-                        cookieSCM = rebaseSCM(equity.div,equity.hash,tmr,steamCookie);
-
-                        ++rebaseCalls;
-
-                        if(!cookieSCM){
-                            std::cout<<"SCM rebase failed"<<std::endl;
-                        }
-                    }
-
-                    if(steamCommunity){
-                        steamCommunity = updateSCM(equity.div,equity.hash,tmr);
-
-                        if(!steamCommunity){
-                            std::cout<<"Steam Community Market unavailable "<<ctime(&tmr);
-                        }
+                    for(auto& thread: runners){
+                        thread.join();
                     }
                 }
-
-                else if(equity.market=="stock"&&stockMarket){
-                    stockMarket = updateStonks();
-
-                    if(!stockMarket){
-                        std::cout<<"Stock market unavailable "<<ctime(&tmr);
-                    }
+            #else
+                for(auto equity: assets){
+                    fetch(equity);
                 }
-
-                std::cout<<++completion*100/(float)assets.size()<<"%\r";
-            }
+            #endif
 
             std::cout<<std::endl;
+
+            if(!steamCommunity){
+                std::cout<<"Steam Community Market unavailable "<<ctime(&tmr);
+            }
+            if(!stockMarket){
+                std::cout<<"Stock market unavailable "<<ctime(&tmr);
+            }
 
             //[call buy/sell calculation]
             //Buy/sell calculation will utilize controlTheory.
         }
-
         else if(strcmp(input,"setup")==0){
             setup();
 
             unruh = time(&tmr);
         }
-
+        else if(strcmp(input,"reset")==0){
+            steamCommunity = true;
+            stockMarket = true;
+            cookieSCM = true;
+        }
         //Prevent extremely long commands from causing spam
         else if(time(&tmr)>unruh+1){
             unrecognized();
@@ -194,11 +180,7 @@ void setup(){
 
             return;
         }
-
-        else if(strcmp(input,"leave")==0){
-            break;
-        }
-        
+        else if(strcmp(input,"leave")==0) break;
         else if(strcmp(input,"steam")==0){
             std::cout<<"Would you like to set/reset your steamLoginSecure? [y/n] ";
             std::cin>>std::setw(2)>>input;
@@ -221,14 +203,12 @@ void setup(){
                         std::cout<<"steamLoginSecure set"<<std::endl;
                     }
                 }
-
                 else{
                     std::cout<<"Invalid input. Try again later using the \"setup\" command."<<std::endl;
                 }
 
                 cookieSCM = true;
             }
-
             else if(strcmp(input,"n")!=0){
                 if(time(&tmr)>unruh+1){
                     unrecognized();
@@ -258,7 +238,7 @@ void setup(){
                             if(strcmp(input,"set")==0){
                                 //Add URL parsing
 
-                                asset temp;
+                                Asset temp;
                                 char nums[11] = "0123456789";
                                 size_t found;
 
@@ -269,11 +249,9 @@ void setup(){
                                 if(temp.market=="Steam"||temp.market=="scm"||temp.market=="SCM"){
                                     temp.market = "steam";
                                 }
-
                                 else if(temp.market=="Stock"){
                                     temp.market = "stock";
                                 }
-
                                 else if(temp.market=="Crypto"||temp.market=="crypto"){
                                     temp.market = "crypt";
                                 }
@@ -295,15 +273,12 @@ void setup(){
                                         if(temp.div=="CSGO"||temp.div=="csgo"||temp.div=="cs"){
                                             temp.div = "730";
                                         }
-
                                         else if(temp.div=="DOTA"||temp.div=="dota"||temp.div=="DOTA2"||temp.div=="dota2"){
                                             temp.div = "570";
                                         }
-
                                         else if(temp.div=="TF"||temp.div=="tf"||temp.div=="TF2"||temp.div=="tf2"){
                                             temp.div = "440";
                                         }
-
                                         else if(temp.div.at(found)=='='){
                                             temp.div = temp.div.substr(found+1,std::string::npos);
                                             
@@ -311,7 +286,6 @@ void setup(){
                                                 flag = true;
                                             }
                                         }
-
                                         else{
                                             flag = true;
 
@@ -333,7 +307,6 @@ void setup(){
                                         steamCommunity = true;
                                     }
                                 }
-
                                 else{
                                     std::cout<<"Currently, only Steam Community Market assets are supported."<<std::endl;
                                 }
@@ -349,7 +322,6 @@ void setup(){
                                     assets.push_back(temp);
                                 }
                             }
-
                             else{
                                 std::cout<<"Please select an asset you would no longer like to track:"<<std::endl;
 
@@ -369,7 +341,6 @@ void setup(){
                                             std::cout<<'['<<i-(page-1)*10<<"] "<<assets[i].market<<' '<<assets[i].div<<' '<<assets[i].hash<<"\n";
                                         }
                                     }
-
                                     else{
                                         for(i = 0+(page-1)*10;i<(page-1)*10+excess;++i){
                                             std::cout<<'['<<i-(page-1)*10<<"] "<<assets[i].market<<' '<<assets[i].div<<' '<<assets[i].hash<<"\n";
@@ -382,20 +353,17 @@ void setup(){
                                     if(strcmp(input,"close")==0){
                                         break;
                                     }
-
                                     else if(strcmp(input,"next")==0){
                                         //Nest to avoid "Unrecognized command" output
                                         if(page<pages-1||(excess>0&&page<pages)){
                                             ++page;
                                         }
                                     }
-
                                     else if(strcmp(input,"prev")==0){
                                         if(page>1){
                                             --page;
                                         }
                                     }
-                                        
                                     else if(strlen(input)==1){
                                         std::istringstream toInt(input);
                                         toInt>>i;
@@ -416,17 +384,14 @@ void setup(){
                                                     assetFile<<"\n"<<assets.at(i).market<<" "<<assets.at(i).div<<" "<<assets.at(i).hash;
                                                 }
                                             }
-
                                             else{
                                                 std::cout<<"\"./data/trackList.txt\" not found"<<std::endl;
                                             }
                                         }
-
                                         else if(strcmp(input,"n")!=0){
                                             unrecognized();
                                         }
                                     }
-
                                     else{
                                         unrecognized();
                                     }
@@ -442,7 +407,6 @@ void setup(){
                                 std::cin>>std::setw(6)>>input;
                                 std::cin.sync();
                             }
-
                             else if(strcmp(input,"n")!=0){
                                 if(time(&tmr)>unruh+1){
                                     unrecognized();
@@ -450,18 +414,15 @@ void setup(){
                                     unruh = time(&tmr);
                                 }
                             }
-
                             else{
                                 break;
                             }
                         }
                     }
-
                     else{
                         std::cout<<"\"./data/trackList.txt\" not found"<<std::endl;
                     }
                 }
-
                 else if(strcmp(input,"skip")!=0){
                     if(time(&tmr)>unruh+1){
                         unrecognized();
@@ -470,12 +431,10 @@ void setup(){
                     }
                 }
             }
-
             else if(strcmp(input,"n")!=0){
                 unrecognized();
             }
         }
-
         else{
             if(time(&tmr)>unruh+1){
                 unrecognized();
@@ -490,4 +449,28 @@ void setup(){
 
 void unrecognized(){
     std::cout<<"Unrecognized command"<<std::endl;
+}
+
+void fetch(Asset equity){
+    assetMutex.lock();
+
+    if(equity.market=="steam"&&steamCommunity){
+        assetMutex.unlock();
+
+        //Implement 12/min wait before rebaseSCM
+        
+        steamCommunity = updateSCM(equity.div,equity.hash,tmr);
+    }
+    else if(equity.market=="stock"&&stockMarket){
+        assetMutex.unlock();
+
+        stockMarket = updateStonks();
+    }
+    else{
+        assetMutex.unlock();
+    }
+
+    completionMutex.lock();
+    std::cout<<++completion*100/(float)assets.size()<<"%\r";
+    completionMutex.unlock();
 }

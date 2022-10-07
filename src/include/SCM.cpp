@@ -7,7 +7,7 @@
 #include "SCM.h"
 
 size_t writeFunction(void* contents,size_t size,size_t nmemb,std::string* data){
-    data->append((char*) contents,size*nmemb);
+    data->append((char*)contents,size*nmemb);
 
     return size*nmemb;
 }
@@ -121,7 +121,6 @@ bool rebaseSCM(const std::string appID,const std::string marketHashName,const ti
 
                 return false;
             }
-
             else if(strcmp(year,lyear)==0){
                 strncpy(clmonth,dateComma+1,3);
                 clmonth[3] = '\0';
@@ -158,7 +157,6 @@ bool rebaseSCM(const std::string appID,const std::string marketHashName,const ti
                         
                         return false;
                     }
-
                     else if(strcmp(day,lday)==0&&strcmp(hour,lhour)<0){
                         #if defined(DEBUG)
                             std::cout<<"SCM price history contains a future hour"<<std::endl;
@@ -166,7 +164,6 @@ bool rebaseSCM(const std::string appID,const std::string marketHashName,const ti
 
                         return false;
                     }
-
                     //Skip rebase if CSV is up-to-date
                     else if(strcmp(hour,lhour)==0&&strcmp(day,lday)==0){
                         return true;
@@ -204,7 +201,6 @@ bool rebaseSCM(const std::string appID,const std::string marketHashName,const ti
 
         return false;
     }
-
     else{
         found = str.find("[\"");
         std::ofstream wCSV("./data/steamData/"+appID+marketHashName+".csv",std::ios::app);
@@ -275,51 +271,39 @@ bool numMonth(const char* clmonth,char* month){
     if(strcmp(clmonth,"Jan")==0){
         strcpy(month,"01");
     }
-
     else if(strcmp(clmonth,"Feb")==0){
         strcpy(month,"02");
     }
-
     else if(strcmp(clmonth,"Mar")==0){
         strcpy(month,"03");
     }
-
     else if(strcmp(clmonth,"Apr")==0){
         strcpy(month,"04");
     }
-
     else if(strcmp(clmonth,"May")==0){
         strcpy(month,"05");
     }
-
     else if(strcmp(clmonth,"Jun")==0){
         strcpy(month,"06");
     }
-
     else if(strcmp(clmonth,"Jul")==0){
         strcpy(month,"07");
     }
-
     else if(strcmp(clmonth,"Aug")==0){
         strcpy(month,"08");
     }
-
     else if(strcmp(clmonth,"Sep")==0){
         strcpy(month,"09");
     }
-
     else if(strcmp(clmonth,"Oct")==0){
         strcpy(month,"10");
     }
-
     else if(strcmp(clmonth,"Nov")==0){
         strcpy(month,"11");
     }
-
     else if(strcmp(clmonth,"Dec")==0){
         strcpy(month,"12");
     }
-
     else{
         return false;
     }
