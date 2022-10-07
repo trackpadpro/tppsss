@@ -1,9 +1,11 @@
-#include <curl/curl.h>
-#include <time.h>
-#include <cstring>
-#include <string>
 #include <iostream>
 #include <fstream>
+#include <cstring>
+#include <string>
+#include <time.h>
+
+#include <curl/curl.h>
+
 #include "SCM.h"
 
 size_t writeFunction(void* contents,size_t size,size_t nmemb,std::string* data){
