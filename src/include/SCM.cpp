@@ -1,13 +1,15 @@
-#include <curl/curl.h>
-#include <time.h>
-#include <cstring>
-#include <string>
 #include <iostream>
 #include <fstream>
+#include <cstring>
+#include <string>
+#include <time.h>
+
+#include <curl/curl.h>
+
 #include "SCM.h"
 
 size_t writeFunction(void* contents,size_t size,size_t nmemb,std::string* data){
-    data->append((char*) contents,size*nmemb);
+    data->append((char*)contents,size*nmemb);
 
     return size*nmemb;
 }
@@ -31,7 +33,7 @@ bool authSteamCheck(const char tempToken[STEAMCOOKIESIZE]){
     return false;
 }
 
-bool updateSCM(const std::string appID,const std::string marketHashName,const time_t &tmr,const std::string dataPath){
+bool updateSCM(const std::string appID,const std::string marketHashName,const time_t &tmr){
     //Price overview uses 24hr volume with a comma if above 1000; thrown out. 
 
     CURL* curl;
@@ -61,7 +63,7 @@ bool updateSCM(const std::string appID,const std::string marketHashName,const ti
     }
 
     else{
-        std::ofstream writeCSV(dataPath+"steamData/"+appID+marketHashName+".csv",std::ios::app);
+        std::ofstream writeCSV("./data/steamData/"+appID+marketHashName+".csv",std::ios::app);
 
         if(!writeCSV.is_open()){
             #if defined(DEBUG)
@@ -85,12 +87,12 @@ bool updateSCM(const std::string appID,const std::string marketHashName,const ti
     }
 }
 
-bool rebaseSCM(const std::string appID,const std::string marketHashName,const time_t &tmr,const std::string dataPath,const char steamLoginSecure[STEAMCOOKIESIZE]){
+bool rebaseSCM(const std::string appID,const std::string marketHashName,const time_t &tmr,const char steamLoginSecure[STEAMCOOKIESIZE]){
     //Do not call function more than 20 times per minute using the same steamLoginSecure cookie (cap below)
     //Price history uses UTC, which is [EDT+4]/[EST+5]
     //Price history uses median price
 
-    std::ifstream rCSV(dataPath+"steamData/"+appID+marketHashName+".csv");
+    std::ifstream rCSV("./data/steamData/"+appID+marketHashName+".csv");
     char line[63], lline[63] = "", year[5], month[3], day[3], hour[3], lyear[5] = "0000", lmonth[3] = "00", lday[3] = "00", lhour[3] = "00", clmonth[4];
 
     if(rCSV.good()){
@@ -121,7 +123,6 @@ bool rebaseSCM(const std::string appID,const std::string marketHashName,const ti
 
                 return false;
             }
-
             else if(strcmp(year,lyear)==0){
                 strncpy(clmonth,dateComma+1,3);
                 clmonth[3] = '\0';
@@ -158,7 +159,6 @@ bool rebaseSCM(const std::string appID,const std::string marketHashName,const ti
                         
                         return false;
                     }
-
                     else if(strcmp(day,lday)==0&&strcmp(hour,lhour)<0){
                         #if defined(DEBUG)
                             std::cout<<"SCM price history contains a future hour"<<std::endl;
@@ -166,7 +166,6 @@ bool rebaseSCM(const std::string appID,const std::string marketHashName,const ti
 
                         return false;
                     }
-
                     //Skip rebase if CSV is up-to-date
                     else if(strcmp(hour,lhour)==0&&strcmp(day,lday)==0){
                         return true;
@@ -204,10 +203,9 @@ bool rebaseSCM(const std::string appID,const std::string marketHashName,const ti
 
         return false;
     }
-
     else{
         found = str.find("[\"");
-        std::ofstream wCSV(dataPath+"steamData/"+appID+marketHashName+".csv",std::ios::app);
+        std::ofstream wCSV("./data/steamData/"+appID+marketHashName+".csv",std::ios::app);
 
         if(!wCSV.is_open()){
             #if defined(DEBUG)
@@ -275,51 +273,39 @@ bool numMonth(const char* clmonth,char* month){
     if(strcmp(clmonth,"Jan")==0){
         strcpy(month,"01");
     }
-
     else if(strcmp(clmonth,"Feb")==0){
         strcpy(month,"02");
     }
-
     else if(strcmp(clmonth,"Mar")==0){
         strcpy(month,"03");
     }
-
     else if(strcmp(clmonth,"Apr")==0){
         strcpy(month,"04");
     }
-
     else if(strcmp(clmonth,"May")==0){
         strcpy(month,"05");
     }
-
     else if(strcmp(clmonth,"Jun")==0){
         strcpy(month,"06");
     }
-
     else if(strcmp(clmonth,"Jul")==0){
         strcpy(month,"07");
     }
-
     else if(strcmp(clmonth,"Aug")==0){
         strcpy(month,"08");
     }
-
     else if(strcmp(clmonth,"Sep")==0){
         strcpy(month,"09");
     }
-
     else if(strcmp(clmonth,"Oct")==0){
         strcpy(month,"10");
     }
-
     else if(strcmp(clmonth,"Nov")==0){
         strcpy(month,"11");
     }
-
     else if(strcmp(clmonth,"Dec")==0){
         strcpy(month,"12");
     }
-
     else{
         return false;
     }

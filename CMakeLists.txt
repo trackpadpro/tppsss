@@ -27,14 +27,14 @@ include_directories(
 	${CURL_INCLUDE_DIRS}
 )
 
-target_link_libraries(${PROJECT_NAME}
+target_link_libraries(${PROJECT_NAME} PRIVATE
 	CURL::libcurl
 	controlTheory
 	SCM
 	stocks
 )
 
-target_link_libraries(SCM 
+target_link_libraries(SCM PRIVATE
 	CURL::libcurl
 )
 
@@ -44,4 +44,17 @@ if(ENABLE_DEBUG)
 	target_compile_definitions(SCM PRIVATE DEBUG)
 	target_compile_definitions(stocks PRIVATE DEBUG)
 	target_compile_definitions(controlTheory PRIVATE DEBUG)
+endif()
+
+option(MULTI_THREAD "Toggle multi-threading" ON)
+if(MULTI_THREAD)
+	if(${CURL_VERSION_STRING} VERSION_LESS 7.84.0)
+		message(WARNING "libcurl v${CURL_VERSION_STRING} found; v7.84.0+ recommended for multi-threading")
+	endif()
+	if(${CMAKE_HOST_SYSTEM_NAME} STREQUAL Linux)
+		set(THREADS_PREFER_PTHREAD_FLAG ON)
+		find_package(Threads REQUIRED)
+		target_link_libraries(${PROJECT_NAME} PRIVATE Threads::Threads)
+	endif()
+	add_compile_definitions(THREAD)
 endif()
