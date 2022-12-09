@@ -8,7 +8,7 @@
 #include <thread>
 #include <atomic>
 #include <mutex>
-#include <time.h>
+#include <ctime>
 
 #include <curl/curl.h>
 
@@ -119,7 +119,7 @@ int main(){
                 {
                     std::vector<std::thread> runners;
 
-                    for(auto equity: assets){
+                    for(auto& equity: assets){
                         runners.push_back(std::thread(fetch,equity));
                     }
                     for(auto& thread: runners){
@@ -127,7 +127,7 @@ int main(){
                     }
                 }
             #else
-                for(auto equity: assets){
+                for(auto& equity: assets){
                     fetch(equity);
                 }
             #endif
@@ -311,7 +311,7 @@ void setup(){
                                     std::cout<<"Currently, only Steam Community Market assets are supported."<<std::endl;
                                 }
 
-                                for(auto equity: assets){
+                                for(auto& equity: assets){
                                     if(equity.market==temp.market&&equity.div==temp.div&&equity.hash==temp.hash){
                                         flag = true;
                                     }
